@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>XIZE - Панель Кассира</title>
+    <style>
+        body {
+            font-family: -apple-system, system-ui, sans-serif;
+            background-color: #f1f5f9;
+            padding: 20px; margin: 0; color: #1e293b;
+        }
+        .cashier-container {
+            max-width: 500px; background: white; margin: 30px auto;
+            border-radius: 24px; padding: 28px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+        h2 {
+            margin-top: 0; font-weight: 800; border-bottom: 2px solid #f1f5f9;
+            padding-bottom: 16px; display: flex; justify-content: space-between; align-items: center;
+            color: #0f172a;
+        }
+        .info-row {
+            display: flex; justify-content: space-between; margin: 12px 0;
+            font-size: 1rem; background: #f8fafc; padding: 12px 16px; border-radius: 14px;
+            border: 1px solid #f1f5f9;
+        }
+        .info-value { font-weight: 700; color: #0f172a; }
+        .order-item { padding: 14px 4px; border-bottom: 1px dashed #cbd5e1; }
+        .item-main { display: flex; justify-content: space-between; align-items: center; }
+        .item-name { font-weight: 700; font-size: 1.1rem; color: #0f172a; }
+        .item-mods { font-size: 0.85rem; color: #64748b; margin-top: 6px; padding-left: 6px; }
+        .mod-line { margin: 3px 0; display: flex; align-items: center; gap: 4px; }
+        .item-price { font-weight: 800; color: #ef4444; min-width: 70px; text-align: right; font-size: 1.05rem; }
+        .item-controls { display: flex; align-items: center; gap: 14px; }
+        .delete-btn {
+            background: #fee2e2; color: #ef4444; border: none; width: 28px; height: 28px;
+            border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;
+            font-size: 1.1rem;
+        }
+        .total-section {
+            margin-top: 25px; padding-top: 18px; border-top: 2px solid #f1f5f9;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .total-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; }
+        .total-price { font-size: 1.75rem; font-weight: 900; color: #ef4444; }
+        .action-btn {
+            background-color: #2563eb; color: white; border: none; width: 100%; padding: 16px;
+            border-radius: 16px; font-size: 1.1rem; font-weight: 700; margin-top: 25px;
+            cursor: pointer; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
+            transition: background 0.2s;
+        }
+        .action-btn:active { background-color: #1d4ed8; }
+        .hidden { display: none !important; }
+        .error-msg { text-align: center; color: #64748b; padding: 30px; }
+    </style>
+</head>
+<body>
+
+    <div class="cashier-container">
+        <h2>Касса XIZE 💸 <span style="font-size: 1rem; font-weight: 600; color: #64748b;" id="top-table"></span></h2>
+        
+        <div id="order-info-block">
+            <div class="info-row">
+                <span>Номер стола:</span>
+                <span class="info-value" id="info-table">-</span>
+            </div>
+            <div class="info-row">
+                <span>Способ оплаты:</span>
+                <span class="info-value" style="color: #2563eb;" id="info-payment">-</span>
+            </div>
+
+            <div style="font-weight: 800; margin: 22px 0 10px 0; font-size: 1rem; color: #0f172a;">Состав заказа:</div>
+            <div id="order-items-list"></div>
+
+            <div class="total-section">
+                <div class="total-title">Итого к оплате:</div>
+                <div class="total-price"><span id="info-total">0</span> сомони</div>
+            </div>
+
+            <button class="action-btn" onclick="completeOrder()">✅ Выдать заказ</button>
+        </div>
+        
+        <div id="error-block" class="error-msg hidden">
+            <h3>QR-код не отсканирован</h3>
+            <p>Отсканируйте рабочий код клиента XIZE.</p>
+        </div>
+    </div>
+
+    <script>
+        const productsDB = {
+            1: { name: "Шаурма", price: 25 },
+            2: { name: "Плов", price: 30 },
+            3: { name: "Лимонад Mixue", price: 12 },
+            7: { name: "Супер Комбо XIZE", price: 40 }
+        };
+
+        const modsDB = {
+            "noluck": { name: "Без лука", price: 0 },
+            "doublecheese": { name: "Двойной сыр", price: 4 },
+            "doublemeat": { name: "Двойное мясо", price: 8 },
+            "nokazy": { name: "Без казы", price: 0 },
+            "extrameat": { name: "Двойное мясо", price: 10 },
+            // База
+            "sizem": { name: "Размер: Средний (M)", price: 0 },
+            "sizel": { name: "Размер: Большой (L)", price: 4 },
+            "cold": { name: "Холодный", price: 0 },
+            "hot": { name: "Горячий", price: 0 },
+            "withice": { name: "Со льдом", price: 0 },
+            "noice": { name: "Без льда", price: 0 },
+            "lowsugar": { name: "Меньше сахара", price: 0 },
+            "midsugar": { name: "Средний сахар", price: 0 },
+            "spoonsugar": { name: "Средняя ст. ложка", price: 0 },
+            "nosugar": { name: "Без сахара", price: 0 },
+            // Топпинги
+            "boba": { name: "Шарики Тапиоки (Бабл)", price: 5 },
+            "doubleboba": { name: "Двойной Бабл", price: 8 },
+            "jelly": { name: "Кокосовое желе", price: 4 },
+            "mangojelly": { name: "Желе Манго", price: 5 },
+            "foam": { name: "Сырная пенка", price: 6 }
+        };
+
+        let activeOrder = [];
+
+        function parseUrl() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const table = urlParams.get('table');
+            const payment = urlParams.get('pay') || 'Наличные';
+            const data = urlParams.get('data');
+
+            if (!table || !data) {
+                document.getElementById('order-info-block').classList.add('hidden');
+                document.getElementById('error-block').classList.remove('hidden');
+                return;
+            }
+
+            document.getElementById('info-table').innerText = "Стол №" + table;
+            document.getElementById('top-table').innerText = "Стол №" + table;
+            document.getElementById('info-payment').innerText = payment;
+
+            const itemsArray = data.split('|');
+            activeOrder = [];
+
+            itemsArray.forEach(itemStr => {
+                const parts = itemStr.split('_');
+                const id = parseInt(parts[0]);
+                const qty = parseInt(parts[1]);
+                const modsString = parts[2] || "";
+
+                if (productsDB[id]) {
+                    let parsedMods = [];
+                    let extraCost = 0;
+
+                    if(modsString) {
+                        modsString.split(',').forEach(mId => {
+                            const prefix = mId[0];
+                            const cleanId = mId.substring(1);
+                            if(modsDB[cleanId]) {
+                                parsedMods.push({
+                                    type: prefix,
+                                    name: modsDB[cleanId].name
+                                });
+                                if(prefix === '+' || (prefix === '*' && modsDB[cleanId].price > 0)) {
+                                    extraCost += modsDB[cleanId].price;
+                                }
+                            }
+                        });
+                    }
+
+                    activeOrder.push({
+                        id: id,
+                        qty: qty,
+                        mods: parsedMods,
+                        singlePrice: productsDB[id].price + extraCost
+                    });
+                }
+            });
+
+            renderOrder();
+        }
+
+        function renderOrder() {
+            const listContainer = document.getElementById('order-items-list');
+            listContainer.innerHTML = "";
+            let totalSum = 0;
+
+            activeOrder.forEach((item, index) => {
+                const prod = productsDB[item.id];
+                const itemSum = item.singlePrice * item.qty;
+                totalSum += itemSum;
+
+                let modsHtml = "";
+                if(item.mods.length > 0) {
+                    modsHtml += `<div class="item-mods">`;
+                    item.mods.forEach(m => {
+                        let icon = '🔹';
+                        if (m.type === '-') icon = '❌';
+                        if (m.type === '*') icon = '⚙️';
+                        modsHtml += `<div class="mod-line">${icon} ${m.name}</div>`;
+                    });
+                    modsHtml += `</div>`;
+                }
+
+                const itemHtml = `
+                    <div class="order-item">
+                        <div class="item-main">
+                            <div class="item-name">${prod.name} (x${item.qty})</div>
+                            <div class="item-controls">
+                                <div class="item-price">${itemSum} с.</div>
+                                <button class="delete-btn" onclick="removeItem(${index})">×</button>
+                            </div>
+                        </div>
+                        ${modsHtml}
+                    </div>
+                `;
+                listContainer.innerHTML += itemHtml;
+            });
+
+            document.getElementById('info-total').innerText = totalSum;
+        }
+
+        function removeItem(index) {
+            activeOrder.splice(index, 1);
+            renderOrder();
+        }
+
+        function completeOrder() {
+            alert("Заказ успешно оформлен! Начинаем готовить на кухне. 🚀");
+            window.location.href = window.location.pathname;
+        }
+
+        window.onload = parseUrl;
+    </script>
+</body>
+</html>
