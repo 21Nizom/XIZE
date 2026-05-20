@@ -5,118 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XIZE - Панель Кассира</title>
     <style>
-        body {
-            font-family: -apple-system, system-ui, sans-serif;
-            background-color: #f1f5f9;
-            padding: 20px; margin: 0; color: #1e293b;
-        }
-        .cashier-container {
-            max-width: 500px; background: white; margin: 30px auto;
-            border-radius: 24px; padding: 28px; box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-        }
-        h2 {
-            margin-top: 0; font-weight: 800; border-bottom: 2px solid #f1f5f9;
-            padding-bottom: 16px; display: flex; justify-content: space-between; align-items: center;
-            color: #0f172a;
-        }
-        .info-row {
-            display: flex; justify-content: space-between; margin: 12px 0;
-            font-size: 1rem; background: #f8fafc; padding: 12px 16px; border-radius: 14px;
-            border: 1px solid #f1f5f9;
-        }
-        .info-value { font-weight: 700; color: #0f172a; }
-        .order-item { padding: 14px 4px; border-bottom: 1px dashed #cbd5e1; }
+        body { font-family: -apple-system, system-ui, sans-serif; background-color: #f1f5f9; padding: 20px; margin: 0; color: #1e293b; }
+        .cashier-container { max-width: 500px; background: white; margin: 20px auto; border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }
+        h2 { margin-top: 0; font-weight: 800; border-bottom: 2px solid #f1f5f9; padding-bottom: 14px; color: #0f172a; display: flex; justify-content: space-between; }
+        .info-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 0.95rem; background: #f8fafc; padding: 10px 14px; border-radius: 12px; }
+        .info-value { font-weight: 700; color: #2563eb; }
+        .order-item { padding: 12px 2px; border-bottom: 1px dashed #cbd5e1; }
         .item-main { display: flex; justify-content: space-between; align-items: center; }
-        .item-name { font-weight: 700; font-size: 1.1rem; color: #0f172a; }
-        .item-mods { font-size: 0.85rem; color: #64748b; margin-top: 6px; padding-left: 6px; }
-        .mod-line { margin: 3px 0; display: flex; align-items: center; gap: 4px; }
-        .item-price { font-weight: 800; color: #ef4444; min-width: 70px; text-align: right; font-size: 1.05rem; }
-        .item-controls { display: flex; align-items: center; gap: 14px; }
-        .delete-btn {
-            background: #fee2e2; color: #ef4444; border: none; width: 28px; height: 28px;
-            border-radius: 50%; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;
-            font-size: 1.1rem;
-        }
-        .total-section {
-            margin-top: 25px; padding-top: 18px; border-top: 2px solid #f1f5f9;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        .total-title { font-size: 1.25rem; font-weight: 800; color: #0f172a; }
-        .total-price { font-size: 1.75rem; font-weight: 900; color: #ef4444; }
-        .action-btn {
-            background-color: #2563eb; color: white; border: none; width: 100%; padding: 16px;
-            border-radius: 16px; font-size: 1.1rem; font-weight: 700; margin-top: 25px;
-            cursor: pointer; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.25);
-            transition: background 0.2s;
-        }
-        .action-btn:active { background-color: #1d4ed8; }
+        .item-name { font-weight: 700; font-size: 1rem; color: #0f172a; }
+        .item-mods { font-size: 0.8rem; color: #64748b; margin-top: 4px; padding-left: 4px; }
+        .item-price { font-weight: 800; color: #2563eb; }
+        .delete-btn { background: #fee2e2; color: #ef4444; border: none; width: 24px; height: 24px; border-radius: 50%; font-weight: bold; cursor: pointer; }
+        .total-section { margin-top: 20px; padding-top: 15px; border-top: 2px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
+        .total-price { font-size: 1.6rem; font-weight: 900; color: #ef4444; }
+        .action-btn { background-color: #2563eb; color: white; border: none; width: 100%; padding: 14px; border-radius: 14px; font-size: 1.05rem; font-weight: 700; margin-top: 20px; cursor: pointer; }
         .hidden { display: none !important; }
-        .error-msg { text-align: center; color: #64748b; padding: 30px; }
     </style>
 </head>
 <body>
 
     <div class="cashier-container">
-        <h2>Касса XIZE 💸 <span style="font-size: 1rem; font-weight: 600; color: #64748b;" id="top-table"></span></h2>
-        
+        <h2>Монитор Кассы XIZE 💸 <span id="top-table" style="color:#64748b; font-size:1rem;"></span></h2>
         <div id="order-info-block">
-            <div class="info-row">
-                <span>Номер стола:</span>
-                <span class="info-value" id="info-table">-</span>
-            </div>
-            <div class="info-row">
-                <span>Способ оплаты:</span>
-                <span class="info-value" style="color: #2563eb;" id="info-payment">-</span>
-            </div>
-
-            <div style="font-weight: 800; margin: 22px 0 10px 0; font-size: 1rem; color: #0f172a;">Состав заказа:</div>
+            <div class="info-row"><span>Номер стола:</span><span class="info-value" id="info-table">-</span></div>
+            <div class="info-row"><span>Способ оплаты:</span><span class="info-value" id="info-payment">-</span></div>
+            <div style="font-weight: 800; margin: 15px 0 8px 0; color: #0f172a;">Детализация чека:</div>
             <div id="order-items-list"></div>
-
-            <div class="total-section">
-                <div class="total-title">Итого к оплате:</div>
-                <div class="total-price"><span id="info-total">0</span> сомони</div>
-            </div>
-
-            <button class="action-btn" onclick="completeOrder()">✅ Выдать заказ</button>
+            <div class="total-section"><div>Итого к выдаче:</div><div class="total-price"><span id="info-total">0</span> с.</div></div>
+            <button class="action-btn" onclick="completeOrder()">✅ Выдать заказ на кухню</button>
         </div>
-        
-        <div id="error-block" class="error-msg hidden">
-            <h3>QR-код не отсканирован</h3>
-            <p>Отсканируйте рабочий код клиента XIZE.</p>
+        <div id="error-block" class="hidden" style="text-align:center; color:#64748b; padding:20px;">
+            <h3>Ждем сканирования QR...</h3>
         </div>
     </div>
 
     <script>
+        // Копия базы данных для кассира
         const productsDB = {
-            1: { name: "Шаурма", price: 25 },
-            2: { name: "Плов", price: 30 },
-            3: { name: "Лимонад Mixue", price: 12 },
-            7: { name: "Супер Комбо XIZE", price: 40 }
+            101: { name: "Raw coconut latte (pioneer)", price: 16 }, 102: { name: "Coconut ice from the American", price: 14 },
+            103: { name: "Light coconut jasmine latte", price: 17 }, 104: { name: "Ice-smoked coconut latte", price: 18 },
+            105: { name: "A Raised Coconut Trio Latte", price: 19 }, 106: { name: "Raw Coconut Velvet Latte", price: 17 },
+            107: { name: "Meteorite latte", price: 18 }, 108: { name: "Black Sugar latte", price: 16 },
+            109: { name: "Black Sugar Oat Latte", price: 18 }, 110: { name: "Muscatine cheese latte", price: 19 },
+            111: { name: "Jasmine-scented latte", price: 16 }, 112: { name: "The Little Butter Latte", price: 17 },
+            113: { name: "Velvet latte", price: 15 }, 114: { name: "Vanilla Velvet latte", price: 16 },
+            115: { name: "Ethiopian Cakes Americano", price: 13 }, 116: { name: "Standard American Style", price: 11 },
+            117: { name: "Deep-roasted Americano", price: 12 }, 118: { name: "Strengthen the Americano", price: 13 },
+            119: { name: "Buttered Butter Americano", price: 15 }, 120: { name: "American style of jasmine", price: 14 },
+            121: { name: "Deep-roasted lattes", price: 15 }, 122: { name: "Selected Audrey Hepburn latte", price: 18 },
+            123: { name: "Oat latte", price: 16 }, 124: { name: "Sugary MacDoo", price: 15 },
+            125: { name: "Vanilla latte", price: 15 }, 126: { name: "Cappuccino", price: 14 },
+            127: { name: "Fruit C American (Лайм)", price: 14 }, 128: { name: "Orange C American", price: 14 },
+            129: { name: "Apple C American", price: 14 }, 130: { name: "Pomelo C American", price: 15 },
+            131: { name: "Cocoa Vienna", price: 16 }, 132: { name: "Crimson Moon Light", price: 17 },
+            133: { name: "«520» 年度特调", price: 19 },
+            201: { name: "Coconut cloud matcha", price: 17 }, 202: { name: "Cheddar cheese matcha", price: 18 },
+            203: { name: "Rye matcha", price: 16 }, 204: { name: "Rye matcha (Large)", price: 19 },
+            205: { name: "Matcha latte", price: 15 }, 206: { name: "Matcha velvet latte", price: 17 },
+            207: { name: "Matcha good to drink", price: 18 },
+            301: { name: "Little orange iced tea", price: 12 }, 302: { name: "Grape iced tea", price: 13 },
+            303: { name: "Apple iced tea", price: 12 }, 304: { name: "Orange iced tea", price: 12 },
+            305: { name: "Grapetweet C iced tea", price: 14 }, 306: { name: "Grape and lemon tea", price: 13 },
+            307: { name: "Chilled mango sago cream", price: 16 }, 308: { name: "Coconut chilled mango", price: 16 },
+            309: { name: "Iced young merina smoothie", price: 15 }, 310: { name: "Pure milk", price: 8 },
+            311: { name: "Walden blue mango yogurt", price: 16 }, 312: { name: "Avocado soufflé yogurt", price: 18 },
+            313: { name: "Avocado cheerios yogurt", price: 17 }, 314: { name: "Sweet gourd light fruit tea", price: 14 },
+            315: { name: "Feathered light fruit", price: 14 }, 316: { name: "Feather jacket light body", price: 15 },
+            401: { name: "Шаурма Классическая", price: 25 }, 402: { name: "Плов Лазер (Говядина)", price: 30 },
+            403: { name: "Супер Комбо XIZE", price: 40 },
+            501: { name: "Tilami sue cup cake", price: 14 }, 502: { name: "Banana cake", price: 12 },
+            503: { name: "Honey cloud cake", price: 15 }, 504: { name: "Beef, cheese sandwich", price: 16 },
+            505: { name: "Raw coconut floss", price: 13 }, 506: { name: "Basque cheese toast", price: 14 },
+            507: { name: "Little butter praise", price: 10 }, 508: { name: "Chocolate‑flavored cookies", price: 8 }
         };
 
         const modsDB = {
-            "noluck": { name: "Без лука", price: 0 },
-            "doublecheese": { name: "Двойной сыр", price: 4 },
-            "doublemeat": { name: "Двойное мясо", price: 8 },
-            "nokazy": { name: "Без казы", price: 0 },
-            "extrameat": { name: "Двойное мясо", price: 10 },
-            // База
-            "sizem": { name: "Размер: Средний (M)", price: 0 },
-            "sizel": { name: "Размер: Большой (L)", price: 4 },
-            "cold": { name: "Холодный", price: 0 },
-            "hot": { name: "Горячий", price: 0 },
-            "withice": { name: "Со льдом", price: 0 },
-            "noice": { name: "Без льда", price: 0 },
-            "lowsugar": { name: "Меньше сахара", price: 0 },
-            "midsugar": { name: "Средний сахар", price: 0 },
-            "spoonsugar": { name: "Средняя ст. ложка", price: 0 },
-            "nosugar": { name: "Без сахара", price: 0 },
-            // Топпинги
-            "boba": { name: "Шарики Тапиоки (Бабл)", price: 5 },
-            "doubleboba": { name: "Двойной Бабл", price: 8 },
-            "jelly": { name: "Кокосовое желе", price: 4 },
-            "mangojelly": { name: "Желе Манго", price: 5 },
-            "foam": { name: "Сырная пенка", price: 6 }
+            "sizem": { name: "M (Средний)", price: 0 }, "sizel": { name: "L (Большой)", price: 4 },
+            "cold": { name: "Холодный", price: 0 }, "hot": { name: "Горячий", price: 0 },
+            "midsugar": { name: "Сахар: Норма", price: 0 }, "lowsugar": { name: "Сахар: Меньше", price: 0 }, "nosugar": { name: "Без сахара", price: 0 },
+            "boba": { name: "Топпинг: Шарики Тапиоки", price: 5 }, "mangojelly": { name: "Топпинг: Желе Манго", price: 5 }, "foam": { name: "Топпинг: Сырная пенка", price: 6 }
         };
 
         let activeOrder = [];
@@ -155,10 +122,7 @@
                             const prefix = mId[0];
                             const cleanId = mId.substring(1);
                             if(modsDB[cleanId]) {
-                                parsedMods.push({
-                                    type: prefix,
-                                    name: modsDB[cleanId].name
-                                });
+                                parsedMods.push({ type: prefix, name: modsDB[cleanId].name });
                                 if(prefix === '+' || (prefix === '*' && modsDB[cleanId].price > 0)) {
                                     extraCost += modsDB[cleanId].price;
                                 }
@@ -166,12 +130,7 @@
                         });
                     }
 
-                    activeOrder.push({
-                        id: id,
-                        qty: qty,
-                        mods: parsedMods,
-                        singlePrice: productsDB[id].price + extraCost
-                    });
+                    activeOrder.push({ id: id, qty: qty, mods: parsedMods, singlePrice: productsDB[id].price + extraCost });
                 }
             });
 
@@ -191,20 +150,15 @@
                 let modsHtml = "";
                 if(item.mods.length > 0) {
                     modsHtml += `<div class="item-mods">`;
-                    item.mods.forEach(m => {
-                        let icon = '🔹';
-                        if (m.type === '-') icon = '❌';
-                        if (m.type === '*') icon = '⚙️';
-                        modsHtml += `<div class="mod-line">${icon} ${m.name}</div>`;
-                    });
+                    item.mods.forEach(m => { modsHtml += `<div>• ${m.name}</div>`; });
                     modsHtml += `</div>`;
                 }
 
-                const itemHtml = `
+                listContainer.innerHTML += `
                     <div class="order-item">
                         <div class="item-main">
                             <div class="item-name">${prod.name} (x${item.qty})</div>
-                            <div class="item-controls">
+                            <div style="display:flex; align-items:center; gap:10px;">
                                 <div class="item-price">${itemSum} с.</div>
                                 <button class="delete-btn" onclick="removeItem(${index})">×</button>
                             </div>
@@ -212,22 +166,13 @@
                         ${modsHtml}
                     </div>
                 `;
-                listContainer.innerHTML += itemHtml;
             });
 
             document.getElementById('info-total').innerText = totalSum;
         }
 
-        function removeItem(index) {
-            activeOrder.splice(index, 1);
-            renderOrder();
-        }
-
-        function completeOrder() {
-            alert("Заказ успешно оформлен! Начинаем готовить на кухне. 🚀");
-            window.location.href = window.location.pathname;
-        }
-
+        function removeItem(index) { activeOrder.splice(index, 1); renderOrder(); }
+        function completeOrder() { alert("Заказ отправлен в печать на кухню! 🚀"); window.location.href = window.location.pathname; }
         window.onload = parseUrl;
     </script>
 </body>
