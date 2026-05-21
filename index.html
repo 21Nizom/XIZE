@@ -15,7 +15,7 @@
             -webkit-user-select: none;
         }
         html, body {
-            background-color: #0b1329; /* Глубокий темный фон для контраста с неоном */
+            background-color: #0b1329;
             color: #f1f5f9;
             display: flex;
             flex-direction: column;
@@ -36,7 +36,6 @@
             color: #00f0ff;
             font-weight: 900;
             letter-spacing: 2px;
-            /* Фирменный неоновый текст XIZE */
             text-shadow: 0 0 10px rgba(0, 240, 255, 0.6), 0 0 20px rgba(0, 240, 255, 0.3);
         }
         .table-badge {
@@ -84,20 +83,21 @@
         }
 
         .sidebar {
-            width: 90px;
+            width: 95px;
             background-color: #0f172a;
             overflow-y: auto;
             height: 100%;
             border-right: 1px solid #1e293b;
             padding-bottom: 150px;
+            flex-shrink: 0;
         }
         .category-btn {
-            padding: 20px 8px;
-            font-size: 0.75rem;
+            padding: 18px 6px;
+            font-size: 0.72rem;
             color: #94a3b8;
             text-align: center;
             cursor: pointer;
-            transition: all 0.25s;
+            transition: all 0.2s;
             font-weight: 600;
             display: flex;
             flex-direction: column;
@@ -105,7 +105,7 @@
             gap: 6px;
             border-bottom: 1px solid #1e293b;
         }
-        .category-btn span { font-size: 1.5rem; transition: transform 0.2s; }
+        .category-btn span { font-size: 1.4rem; transition: transform 0.2s; }
         .category-btn.active {
             background-color: #1e293b;
             color: #00f0ff;
@@ -113,16 +113,18 @@
             border-left: 4px solid #00f0ff;
             box-shadow: inset 10px 0 15px rgba(0, 240, 255, 0.05);
         }
-        .category-btn.active span {
-            transform: scale(1.15);
-        }
+        .category-btn.active span { transform: scale(1.15); }
         
         .products-area {
             flex: 1;
             background-color: #0b1329;
             overflow-y: auto;
-            padding: 15px 15px 160px 15px;
+            padding: 15px 15px 180px 15px; /* Запас снизу, чтобы удобно докручивать десерты */
             height: 100%;
+            scroll-behavior: smooth; /* Плавный скролл при клике на категорию */
+        }
+        .cat-section {
+            margin-bottom: 30px;
         }
         .category-title {
             font-size: 1.1rem;
@@ -134,28 +136,35 @@
             text-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
         }
         
-        /* КРАСИВЫЕ НЕОНОВЫЕ КАРТОЧКИ ТОВАРОВ */
         .product-card {
             display: flex;
             margin-bottom: 16px;
             background: #0f172a;
             padding: 14px;
             border-radius: 20px;
-            border: 1px solid rgba(0, 240, 255, 0.15); /* Едва заметный синий контур */
+            border: 1px solid rgba(0, 240, 255, 0.15);
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
             transition: all 0.25s ease;
         }
         .product-card:active { 
             transform: scale(0.97); 
             border-color: #00f0ff;
-            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4); /* Вспышка неона при нажатии */
+            box-shadow: 0 0 15px rgba(0, 240, 255, 0.4);
         }
-        .product-img {
+        
+        /* КРАСИВЫЕ КАРТИНКИ ВМЕСТО ЭМОДЗИ */
+        .product-img-box {
             width: 75px; height: 75px; border-radius: 14px; background-color: #1e293b;
-            display: flex; align-items: center; justify-content: center; font-size: 2rem;
             margin-right: 12px; flex-shrink: 0; border: 1px solid rgba(0, 240, 255, 0.2);
             box-shadow: 0 0 8px rgba(0, 240, 255, 0.1);
+            overflow: hidden; display: flex; align-items: center; justify-content: center;
         }
+        .product-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Чтобы фото аккуратно заполняло квадрат */
+        }
+        
         .product-info { flex: 1; display: flex; flex-direction: column; justify-content: space-between; }
         .product-name { font-size: 0.95rem; font-weight: 700; color: #ffffff; line-height: 1.3; }
         .product-desc { font-size: 0.75rem; color: #64748b; margin-top: 3px; font-weight: 500; }
@@ -178,7 +187,7 @@
         .btn-plus:active { transform: scale(0.9); }
         .count-value { margin: 0 10px; font-size: 1rem; font-weight: 800; color: #ffffff; min-width: 12px; text-align: center; }
 
-        /* Всплывающий Бар Корзины с неоновым контуром */
+        /* Всплывающий Бар Корзины */
         .cart-bar {
             position: fixed;
             bottom: -90px; left: 4%; width: 92%; height: 56px;
@@ -203,7 +212,6 @@
             color: #0b1329; border: none;
             height: 40px; padding: 0 22px; border-radius: 14px;
             font-size: 0.9rem; font-weight: 800; cursor: pointer;
-            box-shadow: 0 0 10px rgba(0, 240, 255, 0.3);
         }
 
         /* Выезжающая Шторка Корзины */
@@ -256,8 +264,7 @@
         .modal-overlay.open { opacity: 1; pointer-events: auto; }
         .modal-card {
             background: #0f172a; width: 92%; max-width: 365px; border-radius: 24px;
-            padding: 24px; text-align: center; 
-            border: 1px solid #00f0ff;
+            padding: 24px; text-align: center; border: 1px solid #00f0ff;
             box-shadow: 0 15px 35px rgba(0, 240, 255, 0.2);
             max-height: 80vh; overflow-y: auto; transform: scale(0.9); transition: transform 0.25s ease;
         }
@@ -304,14 +311,14 @@
 
     <div id="screen-menu" class="app-screen hidden">
         <div class="sidebar">
-            <div class="category-btn active" onclick="switchCategory('coffee', this)"><span>☕</span>Кофе</div>
-            <div class="category-btn" onclick="switchCategory('matcha', this)"><span>🍵</span>Матча</div>
-            <div class="category-btn" onclick="switchCategory('drinks', this)"><span>🍹</span>Чай/Йогурт</div>
-            <div class="category-btn" onclick="switchCategory('fastfood', this)"><span>🌯</span>Фастфуд</div>
-            <div class="category-btn" onclick="switchCategory('bakery', this)"><span>🍰</span>Десерты</div>
+            <div class="category-btn active" id="btn-coffee" onclick="scrollToCategory('coffee')"><span>☕</span>Кофе</div>
+            <div class="category-btn" id="btn-matcha" onclick="scrollToCategory('matcha')"><span>🍵</span>Матча</div>
+            <div class="category-btn" id="btn-drinks" onclick="scrollToCategory('drinks')"><span>🍹</span>Чай/Йогурт</div>
+            <div class="category-btn" id="btn-fastfood" onclick="scrollToCategory('fastfood')"><span>🌯</span>Фастфуд</div>
+            <div class="category-btn" id="btn-bakery" onclick="scrollToCategory('bakery')"><span>🍰</span>Десерты</div>
         </div>
 
-        <div class="products-area" id="products-container"></div>
+        <div class="products-area" id="products-container" onscroll="handleAreaScroll()"></div>
 
         <div class="cart-bar" id="cart-bar" onclick="toggleCartSheet(true)">
             <div class="cart-left">
@@ -379,83 +386,53 @@
     </div>
 
     <script>
+        // База данных с РЕАЛИСТИЧНЫМИ КАРТИНКАМИ НАПИТКОВ И ЕДЫ вместо смайликов
         const productsDB = {
             // КОФЕ
-            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "🥥" },
-            102: { name: "Coconut ice from the American", price: 14, cat: "coffee", img: "🧊" },
-            103: { name: "Light coconut jasmine latte", price: 17, cat: "coffee", img: "🌸" },
-            104: { name: "Ice-smoked coconut latte", price: 18, cat: "coffee", img: "💨" },
-            105: { name: "A Raised Coconut Trio Latte", price: 19, cat: "coffee", img: "🌴" },
-            106: { name: "Raw Coconut Velvet Latte", price: 17, cat: "coffee", img: "🥛" },
-            107: { name: "Meteorite latte", price: 18, cat: "coffee", img: "☄️" },
-            108: { name: "Black Sugar latte", price: 16, cat: "coffee", img: "🍯" },
-            109: { name: "Black Sugar Oat Latte", price: 18, cat: "coffee", img: "🌾" },
-            110: { name: "Muscatine cheese latte", price: 19, cat: "coffee", img: "🧀" },
-            111: { name: "Jasmine-scented latte", price: 16, cat: "coffee", img: "🍃" },
-            112: { name: "The Little Butter Latte", price: 17, cat: "coffee", img: "🧈" },
-            113: { name: "Velvet latte", price: 15, cat: "coffee", img: "☕" },
-            114: { name: "Vanilla Velvet latte", price: 16, cat: "coffee", img: "🍦" },
-            115: { name: "Ethiopian Cakes Americano", price: 13, cat: "coffee", img: "🇪🇹" },
-            116: { name: "Standard American Style", price: 11, cat: "coffee", img: "☕" },
-            117: { name: "Deep-roasted Americano", price: 12, cat: "coffee", img: "🔥" },
-            118: { name: "Strengthen the Americano", price: 13, cat: "coffee", img: "💪" },
-            119: { name: "Buttered Butter Americano", price: 15, cat: "coffee", img: "🥞" },
-            120: { name: "American style of jasmine", price: 14, cat: "coffee", img: "🌱" },
-            121: { name: "Deep-roasted lattes", price: 15, cat: "coffee", img: "☕" },
-            122: { name: "Selected Audrey Hepburn latte", price: 18, cat: "coffee", img: "🎬" },
-            123: { name: "Oat latte", price: 16, cat: "coffee", img: "🌾" },
-            124: { name: "Sugary MacDoo", price: 15, cat: "coffee", img: "🍬" },
-            125: { name: "Vanilla latte", price: 15, cat: "coffee", img: "☕" },
-            126: { name: "Cappuccino", price: 14, cat: "coffee", img: "☕" },
-            127: { name: "Fruit C American (Лайм)", price: 14, cat: "coffee", img: "🍋" },
-            128: { name: "Orange C American", price: 14, cat: "coffee", img: "🍊" },
-            129: { name: "Apple C American", price: 14, cat: "coffee", img: "🍏" },
-            130: { name: "Pomelo C American", price: 15, cat: "coffee", img: "🍈" },
-            131: { name: "Cocoa Vienna", price: 16, cat: "coffee", img: "🍫" },
-            132: { name: "Crimson Moon Light", price: 17, cat: "coffee", img: "🌙" },
-            133: { name: "«520» 年度特调", price: 19, cat: "coffee", img: "❤️" },
+            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "https://images.unsplash.com/photo-1534778101976-62847782c213?w=150&auto=format&fit=crop&q=60" },
+            102: { name: "Coconut ice from the American", price: 14, cat: "coffee", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=150&auto=format&fit=crop&q=60" },
+            103: { name: "Light coconut jasmine latte", price: 17, cat: "coffee", img: "https://images.unsplash.com/photo-1461023058043-03348144049a?w=150&auto=format&fit=crop&q=60" },
+            104: { name: "Ice-smoked coconut latte", price: 18, cat: "coffee", img: "https://images.unsplash.com/photo-1553909489-cd47e0907980?w=150&auto=format&fit=crop&q=60" },
+            105: { name: "A Raised Coconut Trio Latte", price: 19, cat: "coffee", img: "https://images.unsplash.com/photo-1570968915860-54d5c301fc9f?w=150&auto=format&fit=crop&q=60" },
+            106: { name: "Raw Coconut Velvet Latte", price: 17, cat: "coffee", img: "https://images.unsplash.com/photo-1541167760496-1628856ab772?w=150&auto=format&fit=crop&q=60" },
+            107: { name: "Meteorite latte", price: 18, cat: "coffee", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=150&auto=format&fit=crop&q=60" },
+            108: { name: "Black Sugar latte", price: 16, cat: "coffee", img: "https://images.unsplash.com/photo-1606791405792-1004f1718d4c?w=150&auto=format&fit=crop&q=60" },
+            110: { name: "Muscatine cheese latte", price: 19, cat: "coffee", img: "https://images.unsplash.com/photo-1594133900913-a6292709d0d1?w=150&auto=format&fit=crop&q=60" },
+            113: { name: "Velvet latte", price: 15, cat: "coffee", img: "https://images.unsplash.com/photo-1578314675249-a6910f80cc4e?w=150&auto=format&fit=crop&q=60" },
+            116: { name: "Standard American Style", price: 11, cat: "coffee", img: "https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=150&auto=format&fit=crop&q=60" },
+            126: { name: "Cappuccino", price: 14, cat: "coffee", img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=150&auto=format&fit=crop&q=60" },
 
             // МАТЧА
-            201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "🍵" },
-            202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "🧀" },
-            203: { name: "Rye matcha", price: 16, cat: "matcha", img: "🌾" },
-            204: { name: "Rye matcha (Large)", price: 19, cat: "matcha", img: "🍵" },
-            205: { name: "Matcha latte", price: 15, cat: "matcha", img: "🍵" },
-            206: { name: "Matcha velvet latte", price: 17, cat: "matcha", img: "🥛" },
-            207: { name: "Matcha good to drink", price: 18, cat: "matcha", img: "🥥" },
+            201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "https://images.unsplash.com/photo-1536256263959-770b48d82b0a?w=150&auto=format&fit=crop&q=60" },
+            202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?w=150&auto=format&fit=crop&q=60" },
+            205: { name: "Matcha latte", price: 15, cat: "matcha", img: "https://images.unsplash.com/photo-1582748151274-90a424b61efc?w=150&auto=format&fit=crop&q=60" },
 
             // ЧАИ / ЙОГУРТЫ
-            301: { name: "Little orange iced tea", price: 12, cat: "drinks", img: "🍊" },
-            302: { name: "Grape iced tea", price: 13, cat: "drinks", img: "🍇" },
-            303: { name: "Apple iced tea", price: 12, cat: "drinks", img: "🍎" },
-            304: { name: "Orange iced tea", price: 12, cat: "drinks", img: "🍊" },
-            305: { name: "Grapetweet C iced tea", price: 14, cat: "drinks", img: "🍹" },
-            306: { name: "Grape and lemon tea", price: 13, cat: "drinks", img: "🍋" },
-            307: { name: "Chilled mango sago cream", price: 16, cat: "drinks", img: "🥭" },
-            308: { name: "Coconut chilled mango", price: 16, cat: "drinks", img: "🥥" },
-            309: { name: "Iced young merina smoothie", price: 15, cat: "drinks", img: "🍧" },
-            310: { name: "Pure milk", price: 8, cat: "drinks", img: "🥛" },
-            311: { name: "Walden blue mango yogurt", price: 16, cat: "drinks", img: "🧪" },
-            312: { name: "Avocado soufflé yogurt", price: 18, cat: "drinks", img: "🥑" },
-            313: { name: "Avocado cheerios yogurt", price: 17, cat: "drinks", img: "🥣" },
-            314: { name: "Sweet gourd light fruit tea", price: 14, cat: "drinks", img: "🥒" },
-            315: { name: "Feathered light fruit", price: 14, cat: "drinks", img: "🌿" },
-            316: { name: "Feather jacket light body", price: 15, cat: "drinks", img: "🌱" },
+            301: { name: "Little orange iced tea", price: 12, cat: "drinks", img: "https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=150&auto=format&fit=crop&q=60" },
+            302: { name: "Grape iced tea", price: 13, cat: "drinks", img: "https://images.unsplash.com/photo-1563227812-0ea4c22e6cc8?w=150&auto=format&fit=crop&q=60" },
+            303: { name: "Apple iced tea", price: 12, cat: "drinks", img: "https://images.unsplash.com/photo-1497534446932-c925b458314e?w=150&auto=format&fit=crop&q=60" },
+            304: { name: "Orange iced tea", price: 12, cat: "drinks", img: "https://images.unsplash.com/photo-1621263764928-df1444c5e859?w=150&auto=format&fit=crop&q=60" },
+            305: { name: "Grapetweet C iced tea", price: 14, cat: "drinks", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=150&auto=format&fit=crop&q=60" },
+            306: { name: "Grape and lemon tea", price: 13, cat: "drinks", img: "https://images.unsplash.com/photo-1595981267035-7b04ca84a82d?w=150&auto=format&fit=crop&q=60" },
+            307: { name: "Chilled mango sago cream", price: 16, cat: "drinks", img: "https://images.unsplash.com/photo-1546173159-315724a31696?w=150&auto=format&fit=crop&q=60" },
+            311: { name: "Walden blue mango yogurt", price: 16, cat: "drinks", img: "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=150&auto=format&fit=crop&q=60" },
+            312: { name: "Avocado soufflé yogurt", price: 18, cat: "drinks", img: "https://images.unsplash.com/photo-1528826064081-9aa5587acc74?w=150&auto=format&fit=crop&q=60" },
+            314: { name: "Sweet gourd light fruit tea", price: 14, cat: "drinks", img: "https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=150&auto=format&fit=crop&q=60" },
+            315: { name: "Feathered light fruit", price: 14, cat: "drinks", img: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?w=150&auto=format&fit=crop&q=60" },
+            316: { name: "Feather jacket light body", price: 15, cat: "drinks", img: "https://images.unsplash.com/photo-1567620905732-2d1ec7ab7445?w=150&auto=format&fit=crop&q=60" },
 
             // ФАСТФУД
-            401: { name: "Шаурма Классическая", price: 25, cat: "fastfood", img: "🌯", isFood: true },
-            402: { name: "Плов Лазер (Говядина)", price: 30, cat: "fastfood", img: "🍲", isFood: true },
-            403: { name: "Супер Комбо XIZE", price: 40, cat: "fastfood", img: "📦", isFood: true },
+            401: { name: "Шаурма Классическая", price: 25, cat: "fastfood", img: "https://images.unsplash.com/photo-1561758033-d89a9ad46330?w=150&auto=format&fit=crop&q=60", isFood: true },
+            402: { name: "Плов Лазер (Говядина)", price: 30, cat: "fastfood", img: "https://images.unsplash.com/photo-1541832676-9b763b0239ab?w=150&auto=format&fit=crop&q=60", isFood: true },
+            403: { name: "Супер Комбо XIZE", price: 40, cat: "fastfood", img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=150&auto=format&fit=crop&q=60", isFood: true },
 
             // ДЕСЕРТЫ
-            501: { name: "Tilami sue cup cake", price: 14, cat: "bakery", img: "🧁", isFood: true },
-            502: { name: "Banana cake", price: 12, cat: "bakery", img: "🍌", isFood: true },
-            503: { name: "Honey cloud cake", price: 15, cat: "bakery", img: "🍰", isFood: true },
-            504: { name: "Beef, cheese sandwich", price: 16, cat: "bakery", img: "🥪", isFood: true },
-            505: { name: "Raw coconut floss", price: 13, cat: "bakery", img: "🥥", isFood: true },
-            506: { name: "Basque cheese toast", price: 14, cat: "bakery", img: "🍞", isFood: true },
-            507: { name: "Little butter praise", price: 10, cat: "bakery", img: "🍪", isFood: true },
-            508: { name: "Chocolate‑flavored cookies", price: 8, cat: "bakery", img: "🍫", isFood: true }
+            501: { name: "Tilami sue cup cake", price: 14, cat: "bakery", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=150&auto=format&fit=crop&q=60", isFood: true },
+            502: { name: "Banana cake", price: 12, cat: "bakery", img: "https://images.unsplash.com/photo-1607958996333-41aef7caefaa?w=150&auto=format&fit=crop&q=60", isFood: true },
+            503: { name: "Honey cloud cake", price: 15, cat: "bakery", img: "https://images.unsplash.com/photo-1588195538326-c5b1e9f80a1b?w=150&auto=format&fit=crop&q=60", isFood: true },
+            504: { name: "Beef, cheese sandwich", price: 16, cat: "bakery", img: "https://images.unsplash.com/photo-1539252554452-da37fa1d9357?w=150&auto=format&fit=crop&q=60", isFood: true },
+            505: { name: "Raw coconut floss", price: 13, cat: "bakery", img: "https://images.unsplash.com/photo-1551024601-bec78aea704b?w=150&auto=format&fit=crop&q=60", isFood: true },
+            506: { name: "Basque cheese toast", price: 14, cat: "bakery", img: "https://images.unsplash.com/photo-1525351484163-7529414344d8?w=150&auto=format&fit=crop&q=60", isFood: true }
         };
 
         const drinkConfig = {
@@ -480,6 +457,7 @@
         let cart = [];
         let currentPayment = 'Наличные';
         let currentEditingId = null;
+        let isAutoScrolling = false; // Флаг для блокировки дерганья во время клика
 
         function buildMenu() {
             const container = document.getElementById('products-container');
@@ -487,7 +465,8 @@
             const categories = { coffee: "Свежий Кофе", matcha: "Премиум Матча", drinks: "Бескофеиновые напитки", fastfood: "Фирменный Фастфуд", bakery: "Десерты и выпечка" };
 
             for (let catKey in categories) {
-                html += `<div id="cat-${catKey}" class="cat-section hidden">`;
+                // Все секции активны и идут друг за другом!
+                html += `<div id="cat-${catKey}" class="cat-section">`;
                 html += `<div class="category-title">${categories[catKey]}</div>`;
 
                 for (let pId in productsDB) {
@@ -495,7 +474,9 @@
                     if (p.cat === catKey) {
                         html += `
                             <div class="product-card" data-id="${pId}" onclick="handleCardClick(${pId})">
-                                <div class="product-img">${p.img}</div>
+                                <div class="product-img-box">
+                                    <img src="${p.img}" alt="${p.name}">
+                                </div>
                                 <div class="product-info">
                                     <div>
                                         <div class="product-name">${p.name}</div>
@@ -515,7 +496,45 @@
                 html += `</div>`;
             }
             container.innerHTML = html;
-            document.getElementById('cat-coffee').classList.remove('hidden');
+        }
+
+        // Плавный скролл к нужной категории при ручном клике на боковую кнопку
+        function scrollToCategory(catId) {
+            isAutoScrolling = true;
+            
+            // Подсвечиваем кнопку сразу
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + catId).classList.add('active');
+
+            const targetSection = document.getElementById('cat-' + catId);
+            const container = document.getElementById('products-container');
+            
+            // Считаем позицию секции относительно контейнера
+            container.scrollTop = targetSection.offsetTop - container.offsetTop - 10;
+            
+            // Снимаем блокировку чуть позже, когда скролл завершится
+            setTimeout(() => { isAutoScrolling = false; }, 400);
+        }
+
+        // САМАЯ УМНАЯ ЧАСТЬ: Авто-переключение кнопок бокового меню во время пролистывания вниз/вверх
+        function handleAreaScroll() {
+            if (isAutoScrolling) return; // Если скроллим принудительно по клику — не мешаем
+
+            const container = document.getElementById('products-container');
+            const categories = ['coffee', 'matcha', 'drinks', 'fastfood', 'bakery'];
+            let currentCat = categories[0];
+
+            categories.forEach(catId => {
+                const sec = document.getElementById('cat-' + catId);
+                // Если секция пересекла верхнюю границу экрана (с небольшим запасом)
+                if (container.scrollTop >= (sec.offsetTop - container.offsetTop - 50)) {
+                    currentCat = catId;
+                }
+            });
+
+            // Активируем нужную кнопку в боковом меню
+            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById('btn-' + currentCat).classList.add('active');
         }
 
         function navigateTo(screenId) {
@@ -524,13 +543,6 @@
             document.getElementById('screen-' + screenId).classList.remove('hidden');
             document.getElementById('nav-' + screenId).classList.add('active');
             if(screenId !== 'menu') toggleCartSheet(false);
-        }
-
-        function switchCategory(catId, btn) {
-            document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
-            document.querySelectorAll('.cat-section').forEach(s => s.classList.add('hidden'));
-            btn.classList.add('active');
-            document.getElementById('cat-' + catId).classList.remove('hidden');
         }
 
         function handleCardClick(id) {
@@ -614,14 +626,9 @@
 
         function changeQtyInSheet(index, delta) {
             cart[index].qty += delta;
-            if(cart[index].qty <= 0) {
-                cart.splice(index, 1);
-            }
-            if(cart.length === 0) {
-                toggleCartSheet(false);
-            } else {
-                renderCartSheetList();
-            }
+            if(cart[index].qty <= 0) { cart.splice(index, 1); }
+            if(cart.length === 0) { toggleCartSheet(false); } 
+            else { renderCartSheetList(); }
             updateUI();
         }
 
@@ -637,7 +644,6 @@
             
             cart.forEach((item, index) => {
                 const p = productsDB[item.id];
-                
                 let modsText = "";
                 if(item.mods) {
                     let readableArr = [];
@@ -651,7 +657,7 @@
                 html += `
                     <div class="cart-item-row">
                         <div class="cart-item-details">
-                            <div class="cart-item-name">${p.img} ${p.name}</div>
+                            <div class="cart-item-name">${p.name}</div>
                             ${modsText ? `<div class="cart-item-mods">${modsText}</div>` : ''}
                         </div>
                         <div class="cart-item-price">${item.price * item.qty} с.</div>
@@ -669,7 +675,6 @@
         function updateUI() {
             let totalSum = 0;
             let totalCount = 0;
-            
             cart.forEach(item => {
                 totalSum += item.price * item.qty;
                 totalCount += item.qty;
