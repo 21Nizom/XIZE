@@ -387,54 +387,55 @@
 
     <script>
         // База данных с РЕАЛИСТИЧНЫМИ КАРТИНКАМИ НАПИТКОВ И ЕДЫ вместо смайликов
-       // Железно зафиксированная база данных БЕЗ Unsplash (ссылки никогда не изменятся)
        const productsDB = {
-            // КОФЕ (Прямые ссылки на стаканы с кофе)
-            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Roasted_coffee_beans_in_a_clear_glass_cup.jpg/320px-Roasted_coffee_beans_in_a_clear_glass_cup.jpg" },
-            102: { name: "Coconut ice from the American", price: 14, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Iced_Coffee_in_Seoul.jpg/320px-Iced_Coffee_in_Seoul.jpg" },
-            103: { name: "Light coconut jasmine latte", price: 17, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/98/Latte_with_winged_heart_art.jpg/320px-Latte_with_winged_heart_art.jpg" },
-            104: { name: "Ice-smoked coconut latte", price: 18, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/A_glass_of_Iced_Latte.jpg/320px-A_glass_of_Iced_Latte.jpg" },
-            105: { name: "A Raised Coconut Trio Latte", price: 19, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/db/Caf%C3%A9_au_Lait_at_LuLu_Clara_Vail.jpg/320px-Caf%C3%A9_au_Lait_at_LuLu_Clara_Vail.jpg" },
-            106: { name: "Raw Coconut Velvet Latte", price: 17, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/A_small_cup_of_coffee.jpg/320px-A_small_cup_of_coffee.jpg" },
-            107: { name: "Meteorite latte", price: 18, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/16/001_A_cup_of_latte_art_coffee.jpg/320px-001_A_cup_of_latte_art_coffee.jpg" },
-            108: { name: "Black Sugar latte", price: 16, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Glazed_Bourbon_Brown_Sugar_Latte_%2825000571063%29.jpg/320px-Glazed_Bourbon_Brown_Sugar_Latte_%2825000571063%29.jpg" },
-            110: { name: "Muscatine cheese latte", price: 19, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/Coffee_with_blank_foam.jpg/320px-Coffee_with_blank_foam.jpg" },
-            113: { name: "Velvet latte", price: 15, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/e4/Latte_art_at_The_Coffee_Bean_%288365239103%29.jpg/320px-Latte_art_at_The_Coffee_Bean_%288365239103%29.jpg" },
-            116: { name: "Standard American Style", price: 11, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/45/A_small_cup_of_coffee_on_a_placemat.jpg/320px-A_small_cup_of_coffee_on_a_placemat.jpg" },
-            126: { name: "Cappuccino", price: 14, cat: "coffee", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/2-Cappuccino_at_Sightglass_Coffee.jpg/320px-2-Cappuccino_at_Sightglass_Coffee.jpg" },
+            // КОФЕ
+            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "https://images.p坚持xels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&cs=tinysrgb&w=300" }, // Перезаписано на чистый CDN:
+            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "https://images.pexels.com/photos/312418/pexels-photo-312418.jpeg?auto=compress&w=300" },
+            102: { name: "Coconut ice from the American", price: 14, cat: "coffee", img: "https://images.pexels.com/photos/2615323/pexels-photo-2615323.jpeg?auto=compress&w=300" },
+            103: { name: "Light coconut jasmine latte", price: 17, cat: "coffee", img: "https://images.pexels.com/photos/1193335/pexels-photo-1193335.jpeg?auto=compress&w=300" },
+            104: { name: "Ice-smoked coconut latte", price: 18, cat: "coffee", img: "https://images.pexels.com/photos/2143325/pexels-photo-2143325.jpeg?auto=compress&w=300" },
+            105: { name: "A Raised Coconut Trio Latte", price: 19, cat: "coffee", img: "https://images.pexels.com/photos/2305680/pexels-photo-2305680.jpeg?auto=compress&w=300" },
+            106: { name: "Raw Coconut Velvet Latte", price: 17, cat: "coffee", img: "https://images.pexels.com/photos/302899/pexels-photo-302899.jpeg?auto=compress&w=300" },
+            107: { name: "Meteorite latte", price: 18, cat: "coffee", img: "https://images.pexels.com/photos/851555/pexels-photo-851555.jpeg?auto=compress&w=300" },
+            108: { name: "Black Sugar latte", price: 16, cat: "coffee", img: "https://images.pexels.com/photos/1233528/pexels-photo-1233528.jpeg?auto=compress&w=300" },
+            110: { name: "Muscatine cheese latte", price: 19, cat: "coffee", img: "https://images.pexels.com/photos/2299028/pexels-photo-2299028.jpeg?auto=compress&w=300" },
+            113: { name: "Velvet latte", price: 15, cat: "coffee", img: "https://images.pexels.com/photos/5061241/pexels-photo-5061241.jpeg?auto=compress&w=300" },
+            116: { name: "Standard American Style", price: 11, cat: "coffee", img: "https://images.pexels.com/photos/982612/pexels-photo-982612.jpeg?auto=compress&w=300" },
+            126: { name: "Cappuccino", price: 14, cat: "coffee", img: "https://images.pexels.com/photos/247522/pexels-photo-247522.jpeg?auto=compress&w=300" },
 
-            // МАТЧА (Зеленый чай матча)
-            201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/22/Matcha_Latte_at_The_Coffee_Bean.jpg/320px-Matcha_Latte_at_The_Coffee_Bean.jpg" },
-            202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Iced_Matcha_Latte_at_Daily_Provisions.jpg/320px-Iced_Matcha_Latte_at_Daily_Provisions.jpg" },
-            205: { name: "Matcha latte", price: 15, cat: "matcha", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/07/Matcha_latte_art.jpg/320px-Matcha_latte_art.jpg" },
+            // МАТЧА
+            201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "https://images.pexels.com/photos/5946623/pexels-photo-5946623.jpeg?auto=compress&w=300" },
+            202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "https://images.pexels.com/photos/5947050/pexels-photo-5947050.jpeg?auto=compress&w=300" },
+            205: { name: "Matcha latte", price: 15, cat: "matcha", img: "https://images.pexels.com/photos/4614285/pexels-photo-4614285.jpeg?auto=compress&w=300" },
 
-            // ЧАИ / ЙОГУРТЫ (Красивые холодные напитки в стаканах)
-            301: { name: "Little orange iced tea", price: 12, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Iced_Tea_from_McDonalds.jpg/320px-Iced_Tea_from_McDonalds.jpg" },
-            302: { name: "Grape iced tea", price: 13, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Iced_tea_drink.jpg/320px-Iced_tea_drink.jpg" },
-            303: { name: "Apple iced tea", price: 12, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Iced_black_tea_with_lemon.jpg/320px-Iced_black_tea_with_lemon.jpg" },
-            304: { name: "Orange iced tea", price: 12, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Iced_tea_with_straw.jpg/320px-Iced_tea_with_straw.jpg" },
-            305: { name: "Grapetweet C iced tea", price: 14, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Glass_of_Iced_Tea.jpg/320px-Glass_of_Iced_Tea.jpg" },
-            306: { name: "Grape and lemon tea", price: 13, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a3/Iced_tea_with_lemon_slice.jpg/320px-Iced_tea_with_lemon_slice.jpg" },
-            307: { name: "Chilled mango sago cream", price: 16, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cd/Mango_Smoothie.jpg/320px-Mango_Smoothie.jpg" },
-            311: { name: "Walden blue mango yogurt", price: 16, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Blueberry_smoothie_in_glass.jpg/320px-Blueberry_smoothie_in_glass.jpg" },
-            312: { name: "Avocado soufflé yogurt", price: 18, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Yogurt_with_blueberries_and_mint.jpg/320px-Yogurt_with_blueberries_and_mint.jpg" },
-            314: { name: "Sweet gourd light fruit tea", price: 14, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8a/Iced_tea_with_mint_leaves.jpg/320px-Iced_tea_with_mint_leaves.jpg" },
-            315: { name: "Feathered light fruit", price: 14, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/Iced_tea_in_a_mason_jar.jpg/320px-Iced_tea_in_a_mason_jar.jpg" },
-            316: { name: "Feather jacket light body", price: 15, cat: "drinks", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Glass_of_iced_tea_with_lemon.jpg/320px-Glass_of_iced_tea_with_lemon.jpg" },
+            // ЧАИ / ЙОГУРТЫ
+            301: { name: "Little orange iced tea", price: 12, cat: "drinks", img: "https://images.pexels.com/photos/1194030/pexels-photo-1194030.jpeg?auto=compress&w=300" },
+            302: { name: "Grape iced tea", price: 13, cat: "drinks", img: "https://images.pexels.com/photos/338713/pexels-photo-338713.jpeg?auto=compress&w=300" },
+            303: { name: "Apple iced tea", price: 12, cat: "drinks", img: "https://images.pexels.com/photos/2336687/pexels-photo-2336687.jpeg?auto=compress&w=300" },
+            304: { name: "Orange iced tea", price: 12, cat: "drinks", img: "https://images.pexels.com/photos/209549/pexels-photo-209549.jpeg?auto=compress&w=300" },
+            305: { name: "Grapetweet C iced tea", price: 14, cat: "drinks", img: "https://images.pexels.com/photos/128242/pexels-photo-128242.jpeg?auto=compress&w=300" },
+            306: { name: "Grape and lemon tea", price: 13, cat: "drinks", img: "https://images.pexels.com/photos/1417961/pexels-photo-1417961.jpeg?auto=compress&w=300" },
+            307: { name: "Chilled mango sago cream", price: 16, cat: "drinks", img: "https://images.pexels.com/photos/3625372/pexels-photo-3625372.jpeg?auto=compress&w=300" },
+            311: { name: "Walden blue mango yogurt", price: 16, cat: "drinks", img: "https://images.pexels.com/photos/1092730/pexels-photo-1092730.jpeg?auto=compress&w=300" },
+            312: { name: "Avocado soufflé yogurt", price: 18, cat: "drinks", img: "https://images.pexels.com/photos/4112812/pexels-photo-4112812.jpeg?auto=compress&w=300" },
+            314: { name: "Sweet gourd light fruit tea", price: 14, cat: "drinks", img: "https://images.pexels.com/photos/616833/pexels-photo-616833.jpeg?auto=compress&w=300" },
+            315: { name: "Feathered light fruit", price: 14, cat: "drinks", img: "https://images.pexels.com/photos/301718/pexels-photo-301718.jpeg?auto=compress&w=300" },
+            316: { name: "Feather jacket light body", price: 15, cat: "drinks", img: "https://images.pexels.com/photos/792613/pexels-photo-792613.jpeg?auto=compress&w=300" },
 
-            // ФАСТФУД (Строго шаурма и плов)
-            401: { name: "Шаурма Классическая", price: 25, cat: "fastfood", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Shawarma_2022.jpg/320px-Shawarma_2022.jpg", isFood: true },
-            402: { name: "Плов Лазер (Говядина)", price: 30, cat: "fastfood", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Plov_with_meat.jpg/320px-Plov_with_meat.jpg", isFood: true },
-            403: { name: "Супер Комбо XIZE", price: 40, cat: "fastfood", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Shawarma_wrap_with_fries.jpg/320px-Shawarma_wrap_with_fries.jpg", isFood: true },
+            // ФАСТФУД (Четкие фото без путаницы)
+            401: { name: "Шаурма Классическая", price: 25, cat: "fastfood", img: "https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?auto=compress&w=300", isFood: true }, // Настоящая завернутая шаурма
+            402: { name: "Плов Лазер (Говядина)", price: 30, cat: "fastfood", img: "https://images.pexels.com/photos/14731210/pexels-photo-14731210.jpeg?auto=compress&w=300", isFood: true }, // Восточный плов в тарелке
+            403: { name: "Супер Комбо XIZE", price: 40, cat: "fastfood", img: "https://images.pexels.com/photos/2983101/pexels-photo-2983101.jpeg?auto=compress&w=300", isFood: true },
 
-            // ДЕСЕРТЫ И ВЫПЕЧКА (Настоящий сэндвич, кексы и тосты)
-            501: { name: "Tilami sue cup cake", price: 14, cat: "bakery", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Cupcake_with_chocolate_frosting.jpg/320px-Cupcake_with_chocolate_frosting.jpg", isFood: true },
-            502: { name: "Banana cake", price: 12, cat: "bakery", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Banana_bread_slice.jpg/320px-Banana_bread_slice.jpg", isFood: true },
-            503: { name: "Honey cloud cake", price: 15, cat: "bakery", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Slice_of_honey_cake.jpg/320px-Slice_of_honey_cake.jpg", isFood: true },
-            504: { name: "Beef, cheese sandwich", price: 16, cat: "bakery", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Ham_and_cheese_sandwich_with_lettuce.jpg/320px-Ham_and_cheese_sandwich_with_lettuce.jpg", isFood: true },
-            505: { name: "Raw coconut floss", price: 13, cat: "bakery", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Bun_with_coconut_filling.jpg/320px-Bun_with_coconut_filling.jpg", isFood: true },
-            506: { name: "Basque cheese toast", price: 14, cat: "bakery", img: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Toast_with_melted_cheese.jpg/320px-Toast_with_melted_cheese.jpg", isFood: true }
+            // ДЕСЕРТЫ И ВЫПЕЧКА
+            501: { name: "Tilami sue cup cake", price: 14, cat: "bakery", img: "https://images.pexels.com/photos/1055272/pexels-photo-1055272.jpeg?auto=compress&w=300", isFood: true },
+            502: { name: "Banana cake", price: 12, cat: "bakery", img: "https://images.pexels.com/photos/8357597/pexels-photo-8357597.jpeg?auto=compress&w=300", isFood: true },
+            503: { name: "Honey cloud cake", price: 15, cat: "bakery", img: "https://images.pexels.com/photos/14107/pexels-photo-14107.jpeg?auto=compress&w=300", isFood: true },
+            504: { name: "Beef, cheese sandwich", price: 16, cat: "bakery", img: "https://images.pexels.com/photos/1600891/pexels-photo-1600891.jpeg?auto=compress&w=300", isFood: true }, // Реальный аппетитный сэндвич!
+            505: { name: "Raw coconut floss", price: 13, cat: "bakery", img: "https://images.pexels.com/photos/1055271/pexels-photo-1055271.jpeg?auto=compress&w=300", isFood: true },
+            506: { name: "Basque cheese toast", price: 14, cat: "bakery", img: "https://images.pexels.com/photos/3535383/pexels-photo-3535383.jpeg?auto=compress&w=300", isFood: true }
         };
+
         const drinkConfig = {
             groups: [
                 { id: "size", title: "🥤 Размер", options: [{id: "sizem", name: "Средний (M)", def: true}, {id: "sizel", name: "Большой (L) (+4с.)", price: 4}] },
