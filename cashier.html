@@ -5,85 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XIZE - Панель Кассира</title>
     <style>
-        body { font-family: -apple-system, system-ui, sans-serif; background-color: #f1f5f9; padding: 20px; margin: 0; color: #1e293b; }
-        .cashier-container { max-width: 500px; background: white; margin: 20px auto; border-radius: 24px; padding: 25px; box-shadow: 0 10px 25px rgba(0,0,0,0.04); }
-        h2 { margin-top: 0; font-weight: 800; border-bottom: 2px solid #f1f5f9; padding-bottom: 14px; color: #0f172a; display: flex; justify-content: space-between; }
-        .info-row { display: flex; justify-content: space-between; margin: 10px 0; font-size: 0.95rem; background: #f8fafc; padding: 10px 14px; border-radius: 12px; }
-        .info-value { font-weight: 700; color: #2563eb; }
-        .order-item { padding: 12px 2px; border-bottom: 1px dashed #cbd5e1; }
-        .item-main { display: flex; justify-content: space-between; align-items: center; }
-        .item-name { font-weight: 700; font-size: 1rem; color: #0f172a; }
-        .item-mods { font-size: 0.8rem; color: #64748b; margin-top: 4px; padding-left: 4px; }
-        .item-price { font-weight: 800; color: #2563eb; }
-        .delete-btn { background: #fee2e2; color: #ef4444; border: none; width: 24px; height: 24px; border-radius: 50%; font-weight: bold; cursor: pointer; }
-        .total-section { margin-top: 20px; padding-top: 15px; border-top: 2px solid #f1f5f9; display: flex; justify-content: space-between; align-items: center; }
-        .total-price { font-size: 1.6rem; font-weight: 900; color: #ef4444; }
-        .action-btn { background-color: #2563eb; color: white; border: none; width: 100%; padding: 14px; border-radius: 14px; font-size: 1.05rem; font-weight: 700; margin-top: 20px; cursor: pointer; }
+        :root {
+            --luckin-blue: #0b1430;       
+            --luckin-light-blue: #162454; 
+            --luckin-orange: #00f0ff;     
+            --bg-dark: #060b1e;           
+            --card-bg: #121f4d;           
+            --text-light: #ffffff;        
+            --text-muted: #7a8ebf;        
+            --neon-glow: 0 0 15px rgba(0, 240, 255, 0.7); 
+        }
+
+        body { 
+            font-family: -apple-system, system-ui, sans-serif; 
+            background-color: var(--bg-dark); 
+            padding: 20px; 
+            margin: 0; 
+            color: var(--text-light); 
+        }
+
+        .cashier-container { 
+            max-width: 500px; 
+            background: var(--luckin-blue); 
+            margin: 20px auto; 
+            border-radius: 24px; 
+            padding: 25px; 
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6); 
+        }
+
+        h2 { 
+            margin-top: 0; 
+            font-weight: 900; 
+            border-bottom: 2px solid rgba(0, 240, 255, 0.2); 
+            padding-bottom: 14px; 
+            color: #fff; 
+            display: flex; 
+            justify-content: space-between; 
+            text-shadow: var(--neon-glow);
+        }
+
+        .info-row { 
+            display: flex; 
+            justify-content: space-between; 
+            margin: 10px 0; 
+            font-size: 0.95rem; 
+            background: var(--card-bg); 
+            padding: 12px 14px; 
+            border-radius: 12px; 
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .info-value { 
+            font-weight: 700; 
+            color: var(--luckin-orange); 
+            text-shadow: 0 0 5px rgba(0,240,255,0.4);
+        }
+
+        .order-item { 
+            padding: 14px 4px; 
+            border-bottom: 1px dashed rgba(255,255,255,0.1); 
+        }
+
+        .item-main { 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .item-name { 
+            font-weight: 700; 
+            font-size: 1rem; 
+            color: #fff; 
+        }
+
+        .item-mods { 
+            font-size: 0.8rem; 
+            color: var(--text-muted); 
+            margin-top: 6px; 
+            padding-left: 6px; 
+        }
+
+        .item-price { 
+            font-weight: 800; 
+            color: var(--luckin-orange); 
+        }
+
+        .delete-btn { 
+            background: rgba(239, 68, 68, 0.2); 
+            color: #ef4444; 
+            border: 1px solid #ef4444; 
+            width: 26px; 
+            height: 26px; 
+            border-radius: 50%; 
+            font-weight: bold; 
+            cursor: pointer; 
+        }
+
+        .total-section { 
+            margin-top: 25px; 
+            padding-top: 15px; 
+            border-top: 2px solid rgba(0, 240, 255, 0.2); 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+        }
+
+        .total-price { 
+            font-size: 1.7rem; 
+            font-weight: 900; 
+            color: var(--luckin-orange); 
+            text-shadow: var(--neon-glow);
+        }
+
+        .action-btn { 
+            background-color: var(--luckin-orange); 
+            color: #060b1e; 
+            border: none; 
+            width: 100%; 
+            padding: 16px; 
+            border-radius: 16px; 
+            font-size: 1.05rem; 
+            font-weight: 700; 
+            margin-top: 20px; 
+            cursor: pointer; 
+            box-shadow: var(--neon-glow);
+        }
+
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
     <div class="cashier-container">
-        <h2>Монитор Кассы XIZE 💸 <span id="top-table" style="color:#64748b; font-size:1rem;"></span></h2>
+        <h2>Монитор Кассы XIZE 💸 <span id="top-table" style="color: var(--text-muted); font-size:1rem;"></span></h2>
+        
         <div id="order-info-block">
             <div class="info-row"><span>Номер стола:</span><span class="info-value" id="info-table">-</span></div>
             <div class="info-row"><span>Способ оплаты:</span><span class="info-value" id="info-payment">-</span></div>
-            <div style="font-weight: 800; margin: 15px 0 8px 0; color: #0f172a;">Детализация чека:</div>
+            <div style="font-weight: 800; margin: 20px 0 8px 0; color: #fff; text-shadow: 0 0 5px rgba(0,240,255,0.2);">Детализация чека:</div>
+            
             <div id="order-items-list"></div>
-            <div class="total-section"><div>Итого к выдаче:</div><div class="total-price"><span id="info-total">0</span> с.</div></div>
+            
+            <div class="total-section">
+                <div>Итого к выдаче:</div>
+                <div class="total-price"><span id="info-total">0</span> с.</div>
+            </div>
             <button class="action-btn" onclick="completeOrder()">✅ Выдать заказ на кухню</button>
         </div>
-        <div id="error-block" class="hidden" style="text-align:center; color:#64748b; padding:20px;">
-            <h3>Ждем сканирования QR...</h3>
+
+        <div id="error-block" class="hidden" style="text-align:center; color: var(--text-muted); padding:40px 20px;">
+            <span style="font-size: 4rem; filter: drop-shadow(0 0 10px rgba(0,240,255,0.3));">📥</span>
+            <h3 style="margin-top: 15px; color:#fff;">Ждем сканирования QR...</h3>
         </div>
     </div>
 
     <script>
-        // Копия базы данных для кассира
         const productsDB = {
             101: { name: "Raw coconut latte (pioneer)", price: 16 }, 102: { name: "Coconut ice from the American", price: 14 },
             103: { name: "Light coconut jasmine latte", price: 17 }, 104: { name: "Ice-smoked coconut latte", price: 18 },
             105: { name: "A Raised Coconut Trio Latte", price: 19 }, 106: { name: "Raw Coconut Velvet Latte", price: 17 },
             107: { name: "Meteorite latte", price: 18 }, 108: { name: "Black Sugar latte", price: 16 },
-            109: { name: "Black Sugar Oat Latte", price: 18 }, 110: { name: "Muscatine cheese latte", price: 19 },
-            111: { name: "Jasmine-scented latte", price: 16 }, 112: { name: "The Little Butter Latte", price: 17 },
-            113: { name: "Velvet latte", price: 15 }, 114: { name: "Vanilla Velvet latte", price: 16 },
-            115: { name: "Ethiopian Cakes Americano", price: 13 }, 116: { name: "Standard American Style", price: 11 },
-            117: { name: "Deep-roasted Americano", price: 12 }, 118: { name: "Strengthen the Americano", price: 13 },
-            119: { name: "Buttered Butter Americano", price: 15 }, 120: { name: "American style of jasmine", price: 14 },
-            121: { name: "Deep-roasted lattes", price: 15 }, 122: { name: "Selected Audrey Hepburn latte", price: 18 },
-            123: { name: "Oat latte", price: 16 }, 124: { name: "Sugary MacDoo", price: 15 },
-            125: { name: "Vanilla latte", price: 15 }, 126: { name: "Cappuccino", price: 14 },
-            127: { name: "Fruit C American (Лайм)", price: 14 }, 128: { name: "Orange C American", price: 14 },
-            129: { name: "Apple C American", price: 14 }, 130: { name: "Pomelo C American", price: 15 },
-            131: { name: "Cocoa Vienna", price: 16 }, 132: { name: "Crimson Moon Light", price: 17 },
-            133: { name: "«520» 年度特调", price: 19 },
+            110: { name: "Muscatine cheese latte", price: 19 }, 113: { name: "Velvet latte", price: 15 },
+            116: { name: "Standard American Style", price: 11 }, 126: { name: "Cappuccino", price: 14 },
             201: { name: "Coconut cloud matcha", price: 17 }, 202: { name: "Cheddar cheese matcha", price: 18 },
-            203: { name: "Rye matcha", price: 16 }, 204: { name: "Rye matcha (Large)", price: 19 },
-            205: { name: "Matcha latte", price: 15 }, 206: { name: "Matcha velvet latte", price: 17 },
-            207: { name: "Matcha good to drink", price: 18 },
-            301: { name: "Little orange iced tea", price: 12 }, 302: { name: "Grape iced tea", price: 13 },
-            303: { name: "Apple iced tea", price: 12 }, 304: { name: "Orange iced tea", price: 12 },
-            305: { name: "Grapetweet C iced tea", price: 14 }, 306: { name: "Grape and lemon tea", price: 13 },
-            307: { name: "Chilled mango sago cream", price: 16 }, 308: { name: "Coconut chilled mango", price: 16 },
-            309: { name: "Iced young merina smoothie", price: 15 }, 310: { name: "Pure milk", price: 8 },
-            311: { name: "Walden blue mango yogurt", price: 16 }, 312: { name: "Avocado soufflé yogurt", price: 18 },
-            313: { name: "Avocado cheerios yogurt", price: 17 }, 314: { name: "Sweet gourd light fruit tea", price: 14 },
-            315: { name: "Feathered light fruit", price: 14 }, 316: { name: "Feather jacket light body", price: 15 },
-            401: { name: "Шаурма Классическая", price: 25 }, 402: { name: "Плов Лазер (Говядина)", price: 30 },
-            403: { name: "Супер Комбо XIZE", price: 40 },
-            501: { name: "Tilami sue cup cake", price: 14 }, 502: { name: "Banana cake", price: 12 },
-            503: { name: "Honey cloud cake", price: 15 }, 504: { name: "Beef, cheese sandwich", price: 16 },
-            505: { name: "Raw coconut floss", price: 13 }, 506: { name: "Basque cheese toast", price: 14 },
-            507: { name: "Little butter praise", price: 10 }, 508: { name: "Chocolate‑flavored cookies", price: 8 }
+            205: { name: "Matcha latte", price: 15 }, 301: { name: "Little orange iced tea", price: 12 },
+            302: { name: "Grape iced tea", price: 13 }, 401: { name: "Шаурма Классическая", price: 25 },
+            402: { name: "Плов Лазер (Говядина)", price: 30 }, 501: { name: "Tilami sue cup cake", price: 14 }
         };
 
         const modsDB = {
-            "sizem": { name: "M (Средний)", price: 0 }, "sizel": { name: "L (Большой)", price: 4 },
-            "cold": { name: "Холодный", price: 0 }, "hot": { name: "Горячий", price: 0 },
-            "midsugar": { name: "Сахар: Норма", price: 0 }, "lowsugar": { name: "Сахар: Меньше", price: 0 }, "nosugar": { name: "Без сахара", price: 0 },
-            "boba": { name: "Топпинг: Шарики Тапиоки", price: 5 }, "mangojelly": { name: "Топпинг: Желе Манго", price: 5 }, "foam": { name: "Топпинг: Сырная пенка", price: 6 }
+            "sizem": { name: "M (Средний)", price: 0 }, "sizel": { name: "L (Большой)", price: 3 },
+            "cold": { name: "Холодный", price: 0 }, "hot": { name: "Горячий", price: 0 }
         };
 
         let activeOrder = [];
@@ -119,21 +212,16 @@
 
                     if(modsString) {
                         modsString.split(',').forEach(mId => {
-                            const prefix = mId[0];
                             const cleanId = mId.substring(1);
                             if(modsDB[cleanId]) {
-                                parsedMods.push({ type: prefix, name: modsDB[cleanId].name });
-                                if(prefix === '+' || (prefix === '*' && modsDB[cleanId].price > 0)) {
-                                    extraCost += modsDB[cleanId].price;
-                                }
+                                parsedMods.push({ name: modsDB[cleanId].name });
+                                extraCost += modsDB[cleanId].price;
                             }
                         });
                     }
-
                     activeOrder.push({ id: id, qty: qty, mods: parsedMods, singlePrice: productsDB[id].price + extraCost });
                 }
             });
-
             renderOrder();
         }
 
@@ -164,38 +252,27 @@
                             </div>
                         </div>
                         ${modsHtml}
-                    </div>
-                `;
+                    </div>`;
             });
-
             document.getElementById('info-total').innerText = totalSum;
         }
 
-        function removeItem(index) { 
-            activeOrder.splice(index, 1); 
-            renderOrder(); 
-        }
+        function removeItem(index) { activeOrder.splice(index, 1); renderOrder(); }
 
         function completeOrder() {
             alert("Заказ отправлен в печать на кухню! 🚀");
-            
-            // Прячем старый чек заказа
             document.getElementById('order-info-block').classList.add('hidden');
-            
-            // Выводим красивый статус готовности вместо текста ожидания
             const errorBlock = document.getElementById('error-block');
             errorBlock.innerHTML = `
                 <span style="font-size: 4rem;">🎉</span>
-                <h3 style="color: #10b981; margin-top: 10px;">Заказ успешно выдан!</h3>
-                <p style="color: #64748b; font-size: 0.9rem;">Окно готово к приему следующего QR-кода.</p>
+                <h3 style="color: #00f0ff; margin-top: 10px; text-shadow: var(--neon-glow);">Заказ успешно выдан!</h3>
+                <p style="color: var(--text-muted); font-size: 0.9rem;">Окно готово к приему следующего QR-кода.</p>
             `;
             errorBlock.classList.remove('hidden');
-            
-            // Стираем хвост ссылки, чтобы старый заказ не висел в браузере
             window.history.replaceState({}, document.title, window.location.pathname);
         }
 
         window.onload = parseUrl;
-</script>
+    </script>
 </body>
 </html>
