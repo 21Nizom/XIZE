@@ -121,7 +121,7 @@
             text-shadow: var(--neon-glow);
         }
 
-        /* НЕОНОВАЯ СИНЯЯ КАРТОЧКА ТОВАРА */
+        /* КАРТОЧКА ТОВАРА */
         .product-card {
             background-color: var(--card-bg);
             border: 1px solid rgba(255, 255, 255, 0.05);
@@ -185,7 +185,6 @@
             color: var(--text-muted);
         }
 
-        /* КНОПКА ПЛЮСА С ГОЛУБЫМ СВЕЧЕНИЕМ */
         .btn-add {
             background-color: var(--luckin-orange);
             color: #060b1e;
@@ -207,7 +206,7 @@
             transform: scale(0.9);
         }
 
-        /* ЭКРАНЫ ПРИЛОЖЕНИЯ */
+        /* ЭКРАНЫ */
         .app-screen {
             display: none;
             flex: 1;
@@ -264,10 +263,7 @@
         /* МОДАЛКА НАСТРОЕК */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: rgba(0,0,0,0.7);
             z-index: 200;
             display: none;
@@ -350,6 +346,20 @@
             box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
         }
 
+        /* СПЕЦИАЛЬНЫЕ ЧИПСЫ ДЛЯ СПОСОБОВ ОПЛАТЫ */
+        .chip.pay-dc.active {
+            background-color: rgba(0, 114, 255, 0.2);
+            border-color: #0072ff;
+            color: #3399ff;
+            box-shadow: 0 0 10px rgba(0, 114, 255, 0.4);
+        }
+        .chip.pay-alif.active {
+            background-color: rgba(46, 204, 113, 0.2);
+            border-color: #2ecc71;
+            color: #2ecc71;
+            box-shadow: 0 0 10px rgba(46, 204, 113, 0.4);
+        }
+
         .modal-footer {
             margin-top: 24px;
             display: flex;
@@ -429,10 +439,7 @@
         /* СТРАНИЦА КОРЗИНЫ */
         .cart-modal {
             position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-color: var(--bg-dark);
             z-index: 150;
             display: none;
@@ -510,6 +517,15 @@
             box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
         }
 
+        /* БЛОК СПОСОБОВ ОПЛАТЫ ВНУТРИ КОРЗИНЫ */
+        .payment-selection-box {
+            background: var(--luckin-blue);
+            padding: 14px;
+            border-radius: 14px;
+            margin-top: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
         .cart-modal-footer {
             padding: 16px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -538,7 +554,7 @@
             box-shadow: var(--neon-glow);
         }
 
-        /* НОВАЯ КИБЕР-МОДАЛКА ДЛЯ ОТОБРАЖЕНИЯ СГЕНЕРИРОВАННОГО QR-КОДА */
+        /* МОДАЛКА ДЛЯ ОТОБРАЖЕНИЯ СГЕНЕРИРОВАННОГО QR-КОДА */
         .qr-modal {
             position: fixed;
             top: 0; left: 0; right: 0; bottom: 0;
@@ -632,7 +648,18 @@
             <button class="btn-back" onclick="toggleCartModal(false)">←</button>
             <h3 style="font-size:1.1rem; text-shadow: var(--neon-glow);">Ваш Заказ</h3>
         </div>
-        <div class="cart-items-list" id="cart-items-container"></div>
+        <div class="cart-items-list">
+            <div id="cart-items-container"></div>
+            
+            <div class="payment-selection-box" id="payment-box-section" style="display:none; text-align:left;">
+                <div class="option-label" style="margin-bottom:10px;">Способ оплаты</div>
+                <div class="option-selector-chips">
+                    <div class="chip pay-dc active" onclick="setPaymentMethod(this, 'Dushanbe City')">DC Wallet</div>
+                    <div class="chip pay-alif" onclick="setPaymentMethod(this, 'Alif Mobi')">Alif Mobi</div>
+                    <div class="chip" onclick="setPaymentMethod(this, 'На кассе')">На кассе</div>
+                </div>
+            </div>
+        </div>
         <div class="cart-modal-footer">
             <div class="summary-row">
                 <span>Всего к оплате:</span>
@@ -648,8 +675,8 @@
 
     <div class="qr-modal" id="order-qr-modal">
         <div class="qr-container-box">
-            <h3 style="font-size: 1.3rem; text-shadow: var(--neon-glow);">Ваш QR-код готов!</h3>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">Покажите его на кассе для получения</p>
+            <h3 style="font-size: 1.25rem; text-shadow: var(--neon-glow);">Ваш QR-код готов!</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 4px;" id="qr-payment-method-status">Оплата через: DC Wallet</p>
             
             <div class="qr-image-wrapper">
                 <img id="qr-code-image-element" src="" alt="XIZE Order QR">
@@ -667,7 +694,7 @@
         </div>
         <div class="bottom-nav-item" id="btn-nav-menu" onclick="switchMainScreen('menu')">
             <span>📋</span>
-            <span>Меню</span>
+            <span>Menu</span>
         </div>
         <div class="bottom-nav-item" id="btn-nav-profile" onclick="switchMainScreen('profile')">
             <span>👤</span>
@@ -730,6 +757,7 @@
         let cart = [];
         let currentEditingProduct = null;
         let selectedOptions = { ice: "Нормально", sugar: "100%", size: "Стандарт" };
+        let selectedPaymentMethod = "Dushanbe City";
         let currentActiveTab = "home";
 
         window.onload = function() {
@@ -740,7 +768,6 @@
 
         function switchMainScreen(screenName) {
             currentActiveTab = screenName;
-            
             document.querySelectorAll(".app-screen").forEach(el => {
                 el.classList.remove("active");
                 el.style.display = "none";
@@ -789,9 +816,7 @@
                     if (product.cat === catKey) {
                         html += `
                             <div class="product-card">
-                                <div class="product-img">
-                                    ${product.img}
-                                </div>
+                                <div class="product-img">${product.img}</div>
                                 <div class="product-details">
                                     <div>
                                         <div class="product-title">${product.name}</div>
@@ -829,7 +854,6 @@
             const contentArea = document.getElementById("menu-content");
             contentArea.addEventListener("scroll", () => {
                 if (currentActiveTab !== 'menu') return;
-
                 let currentSection = "";
                 document.querySelectorAll(".category-section").forEach(sec => {
                     const top = sec.offsetTop - 140;
@@ -872,7 +896,7 @@
                 </div>
 
                 <div class="option-group">
-                    <div class="option-label">Креатив: Лед</div>
+                    <div class="option-label">Лед</div>
                     <div class="option-selector-chips">
                         <div class="chip active" onclick="setOpt(this, 'ice', 'Нормально')">Нормальный лед</div>
                         <div class="chip" onclick="setOpt(this, 'ice', 'Мало льда')">Мало льда</div>
@@ -881,7 +905,7 @@
                 </div>
 
                 <div class="option-group">
-                    <div class="option-label">Креатив: Сладость</div>
+                    <div class="option-label">Сладость</div>
                     <div class="option-selector-chips">
                         <div class="chip active" onclick="setOpt(this, 'sugar', '100%')">Стандарт (100%)</div>
                         <div class="chip" onclick="setOpt(this, 'sugar', '70%')">70% сахара</div>
@@ -911,10 +935,15 @@
             document.getElementById("modal-price-calc").innerText = `${currentPrice} с.`;
         }
 
+        function setPaymentMethod(element, method) {
+            element.parentElement.querySelectorAll(".chip").forEach(ch => ch.classList.remove("active"));
+            element.classList.add("active");
+            selectedPaymentMethod = method;
+        }
+
         function submitProductWithOptions() {
             let finalPrice = currentEditingProduct.price;
             if (selectedOptions.size === "Большой") finalPrice += 3;
-
             const specsText = `${selectedOptions.size}, Лёд: ${selectedOptions.ice}, Сахар: ${selectedOptions.sugar}`;
             addToCartFinal(currentEditingProduct.id, currentEditingProduct.name, finalPrice, specsText);
             closeModal();
@@ -947,8 +976,10 @@
                 badge.innerText = totalQty;
                 totalDisplay.innerText = `${totalPrice} с.`;
                 bar.classList.add("active");
+                document.getElementById("payment-box-section").style.display = "block";
             } else {
                 bar.classList.remove("active");
+                document.getElementById("payment-box-section").style.display = "none";
                 toggleCartModal(false);
             }
 
@@ -1001,12 +1032,11 @@
             renderCartItems();
         }
 
-        /* ИСПРАВЛЕННАЯ ФУНКЦИЯ ЗАКАЗА С ГЕНЕРАЦИЕЙ КИБЕР QR-КОДА */
         function placeOrderFinal() {
             if (cart.length === 0) return;
 
             let totalPrice = 0;
-            let orderDetailsText = "XIZE Premium Order:\n";
+            let orderDetailsText = `XIZE Premium Order\nPayment: ${selectedPaymentMethod}\n`;
 
             cart.forEach(item => {
                 totalPrice += (item.price * item.qty);
@@ -1014,22 +1044,19 @@
             });
             orderDetailsText += `Total: ${totalPrice} TJS`;
 
-            // Кодируем данные в ссылку для генерации QR-кода через открытое API
             const encodedData = encodeURIComponent(orderDetailsText);
             const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodedData}&color=00f0ff&bgcolor=0b1430`;
 
-            // Устанавливаем сгенерированный QR-код в элемент изображения
             document.getElementById("qr-code-image-element").src = qrApiUrl;
+            document.getElementById("qr-payment-method-status").innerText = `Оплата через: ${selectedPaymentMethod}`;
             document.getElementById("qr-modal-total-price").innerText = `Итого: ${totalPrice} с.`;
 
-            // Закрываем окно корзины и выводим модалку с готовым QR
             toggleCartModal(false);
             document.getElementById("order-qr-modal").classList.add("active");
         }
 
         function closeQRModal() {
             document.getElementById("order-qr-modal").classList.remove("active");
-            // Очищаем корзину после успешной генерации
             cart = [];
             updateCartUI();
         }
