@@ -171,9 +171,31 @@
             document.getElementById('info-total').innerText = totalSum;
         }
 
-        function removeItem(index) { activeOrder.splice(index, 1); renderOrder(); }
-        function completeOrder() { alert("Заказ отправлен в печать на кухню! 🚀"); window.location.href = window.location.pathname; }
+        function removeItem(index) { 
+            activeOrder.splice(index, 1); 
+            renderOrder(); 
+        }
+
+        function completeOrder() {
+            alert("Заказ отправлен в печать на кухню! 🚀");
+            
+            // Прячем старый чек заказа
+            document.getElementById('order-info-block').classList.add('hidden');
+            
+            // Выводим красивый статус готовности вместо текста ожидания
+            const errorBlock = document.getElementById('error-block');
+            errorBlock.innerHTML = `
+                <span style="font-size: 4rem;">🎉</span>
+                <h3 style="color: #10b981; margin-top: 10px;">Заказ успешно выдан!</h3>
+                <p style="color: #64748b; font-size: 0.9rem;">Окно готово к приему следующего QR-кода.</p>
+            `;
+            errorBlock.classList.remove('hidden');
+            
+            // Стираем хвост ссылки, чтобы старый заказ не висел в браузере
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
         window.onload = parseUrl;
-    </script>
+</script>
 </body>
 </html>
