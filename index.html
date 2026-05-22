@@ -1036,21 +1036,39 @@
             if (cart.length === 0) return;
 
             let totalPrice = 0;
-            let itemsSection = "";
+            let dataParts = [];
 
-            cart.forEach((item, index) => {
+            cart.forEach(item => {
                 totalPrice += (item.price * item.qty);
-                // Собираем товары компактно: Название(Кол-во)
-                itemsSection += `${item.name}(${item.qty});`;
+                
+                // Переводим текстовые настройки обратно в технические коды для кассира
+                let modsArray = [];
+                
+                // Проверяем размер
+                if (item.specs.includes("Большой")) modsArray.push("*sizel");
+                else if (item.specs.includes("Стандарт")) modsArray.push("*sizem");
+                
+                // Проверяем лед
+                if (item.specs.includes("Мало льда")) modsArray.push("*lowsugar"); // или нужный код
+                else if (item.specs.includes("Горячий")) modsArray.push("*hot");
+                
+                // Проверяем сахар
+                if (item.specs.includes("70%")) modsArray.push("*lowsugar");
+                else if (item.specs.includes("Без сахара")) modsArray.push("*nosugar");
+
+                // Собираем строку вида: ID_Колчество_Модификаторы
+                let modsString = modsArray.length > 0 ? "_" + modsArray.join(",") : "";
+                dataParts.push(`${item.id}_${item.qty}${modsString}`);
             });
 
-            // Вставил твой реальный ник 21Nizom
+            // Собираем финальную строчку данных для кассы
+            const cryptoData = dataParts.join('|');
+
+            // Твой базовый URL (ставим по умолчанию Стол №1, раз в приложении нет выбора стола)
             const baseUrl = `https://21nizom.github.io/XIZE/cashier.html`;
+            const finalOrderUrl = `${baseUrl}?table=1&pay=${encodeURIComponent(selectedPaymentMethod)}&data=${encodeURIComponent(cryptoData)}`;
 
-            // Формируем правильную ссылку с параметрами заказа
-            const finalOrderUrl = `${baseUrl}?pay=${encodeURIComponent(selectedPaymentMethod)}&items=${encodeURIComponent(itemsSection)}&total=${totalPrice}`;
-
-            // Кодируем всю ссылку для генератора QR-кода
+            // Генерируем чистый, контрастный QR-код
             const encodedQrData = encodeURIComponent(finalOrderUrl);
             const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedQrData}&color=000000&bgcolor=ffffff`;
 
