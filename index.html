@@ -6,14 +6,14 @@
     <title>XIZE Premium</title>
     <style>
         :root {
-            --luckin-blue: #0b1430;       /* Тот самый глубокий, насыщенный темно-синий фон */
+            --luckin-blue: #0b1430;       /* Глубокий, насыщенный темно-синий фон */
             --luckin-light-blue: #162454; /* Насыщенный синий для карточек */
-            --luckin-orange: #ff3e6c;     /* Яркий неоновый акцент (розово-оранжевый неон) */
+            --luckin-orange: #00f0ff;     /* ТОТ САМЫЙ ЯРКИЙ ЭЛЕКТРИЧЕСКИЙ ГОЛУБОЙ НЕОН вместо розового */
             --bg-dark: #060b1e;           /* Самый глубокий цвет для подложки */
-            --card-bg: #121f4d;           /* Синие насыщенные карточки, никакого белого! */
+            --card-bg: #121f4d;           /* Синие насыщенные карточки, никакого белого */
             --text-light: #ffffff;        /* Чистый белый текст для контраста */
             --text-muted: #7a8ebf;        /* Спокойный сине-серый текст */
-            --neon-glow: 0 0 15px rgba(255, 62, 108, 0.7); /* Тот самый неоновый шлейф */
+            --neon-glow: 0 0 15px rgba(0, 240, 255, 0.7); /* Фирменный сине-голубой неоновый шлейф */
         }
 
         * {
@@ -36,11 +36,11 @@
         /* ОРИГИНАЛЬНЫЙ НЕОНОВЫЙ ХЕДЕР */
         header {
             background-color: var(--luckin-blue);
-            padding: 14px 16px;
+            padding: 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(255, 62, 108, 0.2);
+            border-bottom: 1px solid rgba(0, 240, 255, 0.2);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
@@ -50,14 +50,7 @@
             font-weight: 900;
             color: #fff;
             letter-spacing: 0.5px;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
-        }
-
-        .brand-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            font-weight: 500;
-            opacity: 0.8;
+            text-shadow: var(--neon-glow);
         }
 
         /* ДВУХКОЛОНОЧНЫЙ БЛОК МЕНЮ */
@@ -192,10 +185,10 @@
             color: var(--text-muted);
         }
 
-        /* КНОПКА ПЛЮСА (КРЕАТИВ) С НЕОНОВЫМ СВЕЧЕНИЕМ */
+        /* КНОПКА ПЛЮСА С ГОЛУБЫМ СВЕЧЕНИЕМ */
         .btn-add {
             background-color: var(--luckin-orange);
-            color: #fff;
+            color: #060b1e; /* Темный текст на ярком фоне для читаемости */
             border: none;
             width: 28px;
             height: 28px;
@@ -223,12 +216,11 @@
             text-align: center;
         }
 
-        /* По умолчанию активен главный экран (приветствие) */
         .app-screen.active {
             display: block;
         }
 
-        /* ОРИГИНАЛЬНАЯ ТЕМНАЯ НИЖНЯЯ НАВИГАЦИЯ */
+        /* НИЖНЯЯ НАВИГАЦИЯ */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -269,7 +261,7 @@
             font-size: 1.3rem;
         }
 
-        /* МОДАЛКА НАСТРОЕК (КРЕАТИВ) */
+        /* МОДАЛКА НАСТРОЕК */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -289,7 +281,7 @@
         .modal-content {
             background-color: var(--luckin-blue);
             border-top: 2px solid var(--luckin-orange);
-            box-shadow: 0 -5px 25px rgba(255, 62, 108, 0.3);
+            box-shadow: 0 -5px 25px rgba(0, 240, 255, 0.3);
             width: 100%;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
@@ -352,10 +344,10 @@
         }
 
         .chip.active {
-            background-color: rgba(255, 62, 108, 0.15);
+            background-color: rgba(0, 240, 255, 0.15);
             color: var(--luckin-orange);
             border-color: var(--luckin-orange);
-            box-shadow: 0 0 8px rgba(255, 62, 108, 0.3);
+            box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
         }
 
         .modal-footer {
@@ -369,7 +361,7 @@
 
         .btn-submit-options {
             background-color: var(--luckin-orange);
-            color: #fff;
+            color: #060b1e;
             border: none;
             padding: 12px 28px;
             border-radius: 20px;
@@ -386,7 +378,7 @@
             left: 16px;
             right: 16px;
             background-color: var(--luckin-light-blue);
-            border: 1px solid rgba(255, 62, 108, 0.3);
+            border: 1px solid rgba(0, 240, 255, 0.3);
             border-radius: 30px;
             height: 52px;
             display: flex;
@@ -413,7 +405,7 @@
 
         .cart-badge {
             background-color: var(--luckin-orange);
-            color: #fff;
+            color: #060b1e;
             font-size: 0.75rem;
             font-weight: 800;
             padding: 2px 7px;
@@ -422,8 +414,8 @@
         }
 
         .btn-checkout {
-            background-color: #fff;
-            color: var(--luckin-blue);
+            background-color: var(--luckin-orange);
+            color: #060b1e;
             border: none;
             padding: 0 18px;
             height: 36px;
@@ -431,6 +423,7 @@
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
+            box-shadow: var(--neon-glow);
         }
 
         /* СТРАНИЦА КОРЗИНЫ */
@@ -514,7 +507,7 @@
             color: var(--luckin-orange);
             font-weight: 700;
             cursor: pointer;
-            box-shadow: 0 0 5px rgba(255, 62, 108, 0.2);
+            box-shadow: 0 0 5px rgba(0, 240, 255, 0.2);
         }
 
         .cart-modal-footer {
@@ -535,7 +528,7 @@
         .btn-order-now {
             width: 100%;
             background-color: var(--luckin-orange);
-            color: #fff;
+            color: #060b1e;
             border: none;
             padding: 14px;
             border-radius: 25px;
@@ -551,16 +544,15 @@
     <header>
         <div>
             <div class="brand-name">XIZE Premium</div>
-            <div class="brand-sub">Luckin Coffee Cyber Style</div>
         </div>
     </header>
 
     <div id="screen-home" class="app-screen active">
         <div style="margin-top: 80px;">
-            <span style="font-size: 4.5rem; filter: drop-shadow(0 0 15px rgba(255,62,108,0.4));">✨</span>
-            <h2 style="margin-top: 20px; font-size: 1.7rem; letter-spacing: 0.5px; text-shadow: var(--neon-glow);">Добро пожаловать в XIZE</h2>
-            <p style="color: var(--text-muted); margin-top: 12px; padding: 0 25px; font-size: 0.9rem; line-height: 1.5;">Насыщенный неоновый стиль, премиальный кокосовый кофе и атмосфера будущего.</p>
-            <button onclick="switchMainScreen('menu')" style="margin-top: 35px; background: var(--luckin-orange); color:#fff; border:none; padding:14px 35px; border-radius:25px; font-weight:700; cursor:pointer; box-shadow: var(--neon-glow); font-size:0.95rem; transition: 0.2s;">Открыть Меню</button>
+            <span style="font-size: 4.5rem; filter: drop-shadow(0 0 15px rgba(0,240,255,0.4));">⚡</span>
+            <h2 style="margin-top: 20px; font-size: 1.7rem; letter-spacing: 0.5px; text-shadow: var(--neon-glow);">XIZE Premium</h2>
+            <p style="color: var(--text-muted); margin-top: 12px; padding: 0 25px; font-size: 0.9rem; line-height: 1.5;">Насыщенный синий стиль, глубокая неоновая атмосфера и премиальный выбор.</p>
+            <button onclick="switchMainScreen('menu')" style="margin-top: 35px; background: var(--luckin-orange); color:#060b1e; border:none; padding:14px 35px; border-radius:25px; font-weight:700; cursor:pointer; box-shadow: var(--neon-glow); font-size:0.95rem; transition: 0.2s;">Открыть Меню</button>
         </div>
     </div>
 
@@ -573,7 +565,7 @@
         <div style="margin-top: 50px;">
             <div style="width: 90px; height: 90px; background: var(--card-bg); border-radius: 50%; margin: 0 auto; display:flex; align-items:center; justify-content:center; font-size: 2.5rem; border: 2px solid var(--luckin-orange); box-shadow: var(--neon-glow);">👤</div>
             <h3 style="margin-top: 16px; font-size: 1.3rem;">Постоянный Гость</h3>
-            <p style="color: var(--luckin-orange); font-size: 0.85rem; font-weight:700; margin-top:4px; text-shadow: 0 0 5px rgba(255,62,108,0.4);">XIZE Cyber Club</p>
+            <p style="color: var(--luckin-orange); font-size: 0.85rem; font-weight:700; margin-top:4px; text-shadow: 0 0 5px rgba(0,240,255,0.4);">XIZE Club</p>
             
             <div style="margin-top: 30px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius:16px; padding: 18px; text-align: left; max-width: 320px; margin-left:auto; margin-right:auto; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
                 <div style="display:flex; justify-content:space-between; margin-bottom:14px; font-size:0.9rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
@@ -593,14 +585,14 @@
         </div>
         <div style="display:flex; align-items:center; gap:15px;">
             <div style="font-weight:800; font-size:1.1rem; color:#fff;" id="cart-total-display">0 с.</div>
-            <button class="btn-checkout" onclick="toggleCartModal(true)" style="background: var(--luckin-orange); color:#fff; box-shadow: var(--neon-glow);">Открыть</button>
+            <button class="btn-checkout" onclick="toggleCartModal(true)">Открыть</button>
         </div>
     </div>
 
     <div class="cart-modal" id="cart-manager-modal">
         <div class="cart-modal-header">
             <button class="btn-back" onclick="toggleCartModal(false)">←</button>
-            <h3 style="font-size:1.1rem; text-shadow: var(--neon-glow);">Ваш Cyber Заказ</h3>
+            <h3 style="font-size:1.1rem; text-shadow: var(--neon-glow);">Ваш Заказ</h3>
         </div>
         <div class="cart-items-list" id="cart-items-container"></div>
         <div class="cart-modal-footer">
@@ -686,7 +678,7 @@
         let cart = [];
         let currentEditingProduct = null;
         let selectedOptions = { ice: "Нормально", sugar: "100%", size: "Стандарт" };
-        let currentActiveTab = "home"; // По умолчанию открывается Главная
+        let currentActiveTab = "home";
 
         window.onload = function() {
             renderSidebar();
@@ -797,7 +789,6 @@
             });
         }
 
-        /* МОДАЛКА КРЕАТИВ (УДАЛЕНО ВСЁ БЕЛОЕ) */
         function openProductConfig(pId) {
             const product = productsDB[pId];
             currentEditingProduct = { id: pId, ...product };
