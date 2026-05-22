@@ -6,13 +6,14 @@
     <title>XIZE Premium</title>
     <style>
         :root {
-            --luckin-blue: #1d3557; /* Тот самый глубокий королевский синий */
-            --luckin-light: #457b9d;
-            --luckin-orange: #e63946; /* Акцентный сочный цвет */
-            --bg-light: #f1faee;
-            --card-bg: #ffffff; /* Белоснежные карточки для контраста */
-            --text-main: #1d3557;
-            --text-muted: #6c757d;
+            --luckin-blue: #0b1430;       /* Тот самый глубокий, насыщенный темно-синий фон */
+            --luckin-light-blue: #162454; /* Насыщенный синий для карточек */
+            --luckin-orange: #ff3e6c;     /* Яркий неоновый акцент (розово-оранжевый неон) */
+            --bg-dark: #060b1e;           /* Самый глубокий цвет для подложки */
+            --card-bg: #121f4d;           /* Синие насыщенные карточки, никакого белого! */
+            --text-light: #ffffff;        /* Чистый белый текст для контраста */
+            --text-muted: #7a8ebf;        /* Спокойный сине-серый текст */
+            --neon-glow: 0 0 15px rgba(255, 62, 108, 0.7); /* Тот самый неоновый шлейф */
         }
 
         * {
@@ -24,22 +25,23 @@
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-            background-color: var(--bg-light);
-            color: var(--text-main);
+            background-color: var(--bg-dark);
+            color: var(--text-light);
             display: flex;
             flex-direction: column;
             height: 100vh;
             overflow: hidden;
         }
 
-        /* ОРИГИНАЛЬНЫЙ ХЕДЕР */
+        /* ОРИГИНАЛЬНЫЙ НЕОНОВЫЙ ХЕДЕР */
         header {
             background-color: var(--luckin-blue);
             padding: 14px 16px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+            border-bottom: 1px solid rgba(255, 62, 108, 0.2);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 10;
         }
 
@@ -48,11 +50,12 @@
             font-weight: 900;
             color: #fff;
             letter-spacing: 0.5px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
 
         .brand-sub {
             font-size: 0.75rem;
-            color: #f1faee;
+            color: var(--text-muted);
             font-weight: 500;
             opacity: 0.8;
         }
@@ -62,13 +65,14 @@
             display: flex;
             flex: 1;
             overflow: hidden;
+            background-color: var(--bg-dark);
         }
 
         /* БОКОВАЯ НАВИГАЦИЯ */
         .sidebar {
             width: 85px;
-            background-color: #e5e5e5;
-            border-right: 1px solid #dbdbdb;
+            background-color: rgba(11, 20, 48, 0.6);
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             flex-direction: column;
             overflow-y: auto;
@@ -79,7 +83,7 @@
             text-align: center;
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-main);
+            color: var(--text-muted);
             cursor: pointer;
             border-left: 4px solid transparent;
             display: flex;
@@ -94,10 +98,11 @@
         }
 
         .nav-item.active {
-            background-color: var(--bg-light);
+            background-color: var(--card-bg);
             color: var(--luckin-orange);
             border-left-color: var(--luckin-orange);
             font-weight: 700;
+            text-shadow: var(--neon-glow);
         }
 
         /* КОНТЕНТ МЕНЮ */
@@ -116,32 +121,37 @@
         .category-section h2 {
             font-size: 1.05rem;
             font-weight: 800;
-            color: var(--luckin-blue);
+            color: #fff;
             margin-bottom: 12px;
             padding-left: 6px;
-            border-left: 4px solid var(--luckin-blue);
+            border-left: 4px solid var(--luckin-orange);
+            text-shadow: var(--neon-glow);
         }
 
-        /* КАРТОЧКА ТОВАРА */
+        /* НЕОНОВАЯ СИНЯЯ КАРТОЧКА ТОВАРА */
         .product-card {
             background-color: var(--card-bg);
-            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
             padding: 12px;
             margin-bottom: 12px;
             display: flex;
             gap: 12px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            color: var(--text-light);
         }
 
         .product-img {
             width: 80px;
             height: 80px;
-            border-radius: 8px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 2.5rem;
             flex-shrink: 0;
+            background-color: rgba(255, 255, 255, 0.03) !important;
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .product-details {
@@ -154,13 +164,14 @@
         .product-title {
             font-size: 0.95rem;
             font-weight: 700;
-            color: var(--text-main);
+            color: var(--text-light);
             line-height: 1.3;
         }
 
         .product-tag {
             font-size: 0.7rem;
             color: var(--text-muted);
+            margin-top: 2px;
         }
 
         .product-footer {
@@ -172,20 +183,22 @@
         .product-price {
             font-size: 1.15rem;
             font-weight: 800;
-            color: var(--luckin-blue);
+            color: #fff;
         }
 
         .product-price span {
             font-size: 0.8rem;
             margin-left: 2px;
+            color: var(--text-muted);
         }
 
+        /* КНОПКА ПЛЮСА (КРЕАТИВ) С НЕОНОВЫМ СВЕЧЕНИЕМ */
         .btn-add {
-            background-color: var(--luckin-blue);
+            background-color: var(--luckin-orange);
             color: #fff;
             border: none;
-            width: 26px;
-            height: 26px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             font-size: 1.2rem;
             font-weight: 700;
@@ -193,7 +206,12 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 2px 5px rgba(29,53,87,0.3);
+            box-shadow: var(--neon-glow);
+            transition: transform 0.1s;
+        }
+
+        .btn-add:active {
+            transform: scale(0.9);
         }
 
         /* ЭКРАНЫ ПРИЛОЖЕНИЯ */
@@ -205,11 +223,12 @@
             text-align: center;
         }
 
+        /* По умолчанию активен главный экран (приветствие) */
         .app-screen.active {
             display: block;
         }
 
-        /* ОРИГИНАЛЬНАЯ НИЖНЯЯ НАВИГАЦИЯ */
+        /* ОРИГИНАЛЬНАЯ ТЕМНАЯ НИЖНЯЯ НАВИГАЦИЯ */
         .bottom-nav {
             position: fixed;
             bottom: 0;
@@ -217,12 +236,12 @@
             right: 0;
             height: 65px;
             background-color: var(--luckin-blue);
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             justify-content: space-around;
             align-items: center;
             z-index: 100;
-            box-shadow: 0 -3px 15px rgba(0,0,0,0.1);
+            box-shadow: 0 -5px 25px rgba(0,0,0,0.6);
         }
 
         .bottom-nav-item {
@@ -230,34 +249,34 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            opacity: 0.6;
+            color: var(--text-muted);
             font-size: 0.75rem;
             font-weight: 600;
             cursor: pointer;
             gap: 4px;
             flex: 1;
             height: 100%;
+            transition: all 0.2s;
         }
 
         .bottom-nav-item.active {
-            opacity: 1;
+            color: var(--luckin-orange);
             font-weight: 700;
-            color: #fff;
+            text-shadow: var(--neon-glow);
         }
 
         .bottom-nav-item span:first-child {
             font-size: 1.3rem;
         }
 
-        /* МОДАЛКА КРЕАТИВ (НАСТРОЙКИ НАПИТКА) */
+        /* МОДАЛКА НАСТРОЕК (КРЕАТИВ) */
         .modal-overlay {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7);
             z-index: 200;
             display: none;
             align-items: flex-end;
@@ -268,14 +287,16 @@
         }
 
         .modal-content {
-            background-color: #fff;
+            background-color: var(--luckin-blue);
+            border-top: 2px solid var(--luckin-orange);
+            box-shadow: 0 -5px 25px rgba(255, 62, 108, 0.3);
             width: 100%;
             border-top-left-radius: 20px;
             border-top-right-radius: 20px;
             padding: 20px;
             max-height: 80vh;
             overflow-y: auto;
-            color: var(--text-main);
+            color: var(--text-light);
             text-align: left;
         }
 
@@ -309,6 +330,7 @@
             color: var(--text-muted);
             margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .option-selector-chips {
@@ -318,20 +340,22 @@
         }
 
         .chip {
-            background-color: #f0f2f5;
+            background-color: var(--luckin-light-blue);
             padding: 8px 14px;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 600;
-            color: var(--text-main);
+            color: #fff;
             cursor: pointer;
-            border: 1px solid transparent;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.2s;
         }
 
         .chip.active {
-            background-color: #e1eaf5;
-            color: var(--luckin-blue);
-            border-color: var(--luckin-blue);
+            background-color: rgba(255, 62, 108, 0.15);
+            color: var(--luckin-orange);
+            border-color: var(--luckin-orange);
+            box-shadow: 0 0 8px rgba(255, 62, 108, 0.3);
         }
 
         .modal-footer {
@@ -339,12 +363,12 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-top: 1px solid #f0f2f5;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
             padding-top: 16px;
         }
 
         .btn-submit-options {
-            background-color: var(--luckin-blue);
+            background-color: var(--luckin-orange);
             color: #fff;
             border: none;
             padding: 12px 28px;
@@ -352,6 +376,7 @@
             font-size: 0.9rem;
             font-weight: 700;
             cursor: pointer;
+            box-shadow: var(--neon-glow);
         }
 
         /* ФЛАТТЕР-БАР КОРЗИНЫ */
@@ -360,7 +385,8 @@
             bottom: 80px;
             left: 16px;
             right: 16px;
-            background-color: var(--luckin-blue);
+            background-color: var(--luckin-light-blue);
+            border: 1px solid rgba(255, 62, 108, 0.3);
             border-radius: 30px;
             height: 52px;
             display: flex;
@@ -368,7 +394,7 @@
             justify-content: space-between;
             padding: 0 8px 0 20px;
             z-index: 99;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
             transform: translateY(150%);
             transition: transform 0.3s ease-in-out;
         }
@@ -392,6 +418,7 @@
             font-weight: 800;
             padding: 2px 7px;
             border-radius: 10px;
+            box-shadow: var(--neon-glow);
         }
 
         .btn-checkout {
@@ -413,7 +440,7 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-color: var(--bg-light);
+            background-color: var(--bg-dark);
             z-index: 150;
             display: none;
             flex-direction: column;
@@ -425,7 +452,7 @@
 
         .cart-modal-header {
             padding: 16px;
-            border-bottom: 1px solid #dbdbdb;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             display: flex;
             align-items: center;
             gap: 16px;
@@ -452,16 +479,18 @@
             justify-content: space-between;
             align-items: center;
             padding: 14px 12px;
-            background: #fff;
-            border-radius: 10px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
             margin-bottom: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.02);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
             text-align: left;
         }
 
         .cart-item-meta h4 {
             font-size: 0.95rem;
             font-weight: 700;
+            color: #fff;
         }
 
         .cart-item-meta p {
@@ -480,17 +509,18 @@
             width: 26px;
             height: 26px;
             border-radius: 50%;
-            border: 1px solid var(--luckin-blue);
+            border: 1px solid var(--luckin-orange);
             background: none;
-            color: var(--luckin-blue);
+            color: var(--luckin-orange);
             font-weight: 700;
             cursor: pointer;
+            box-shadow: 0 0 5px rgba(255, 62, 108, 0.2);
         }
 
         .cart-modal-footer {
             padding: 16px;
-            border-top: 1px solid #dbdbdb;
-            background-color: #fff;
+            border-top: 1px solid rgba(255, 255, 255, 0.08);
+            background-color: var(--luckin-blue);
             padding-bottom: 30px;
         }
 
@@ -512,6 +542,7 @@
             font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
+            box-shadow: var(--neon-glow);
         }
     </style>
 </head>
@@ -520,36 +551,36 @@
     <header>
         <div>
             <div class="brand-name">XIZE Premium</div>
-            <div class="brand-sub">Luckin Coffee Style</div>
+            <div class="brand-sub">Luckin Coffee Cyber Style</div>
         </div>
     </header>
 
-    <div id="screen-home" class="app-screen">
-        <div style="margin-top: 60px;">
-            <span style="font-size: 4rem;">👋</span>
-            <h2 style="margin-top: 20px; font-size: 1.6rem;">Добро пожаловать в XIZE!</h2>
-            <p style="color: var(--text-muted); margin-top: 10px; padding: 0 20px;">Лучшие кофейные зерна, нежный кокосовый вкус и премиальное меню для ценителей.</p>
-            <button onclick="switchMainScreen('menu')" style="margin-top: 30px; background: var(--luckin-blue); color:#fff; border:none; padding:12px 30px; border-radius:20px; font-weight:700; cursor:pointer;">Перейти к меню</button>
+    <div id="screen-home" class="app-screen active">
+        <div style="margin-top: 80px;">
+            <span style="font-size: 4.5rem; filter: drop-shadow(0 0 15px rgba(255,62,108,0.4));">✨</span>
+            <h2 style="margin-top: 20px; font-size: 1.7rem; letter-spacing: 0.5px; text-shadow: var(--neon-glow);">Добро пожаловать в XIZE</h2>
+            <p style="color: var(--text-muted); margin-top: 12px; padding: 0 25px; font-size: 0.9rem; line-height: 1.5;">Насыщенный неоновый стиль, премиальный кокосовый кофе и атмосфера будущего.</p>
+            <button onclick="switchMainScreen('menu')" style="margin-top: 35px; background: var(--luckin-orange); color:#fff; border:none; padding:14px 35px; border-radius:25px; font-weight:700; cursor:pointer; box-shadow: var(--neon-glow); font-size:0.95rem; transition: 0.2s;">Открыть Меню</button>
         </div>
     </div>
 
-    <div id="screen-menu" class="main-layout app-screen active" style="padding:0; text-align:left;">
+    <div id="screen-menu" class="main-layout app-screen" style="padding:0; text-align:left;">
         <aside class="sidebar" id="sidebar-menu"></aside>
         <main class="content" id="menu-content"></main>
     </div>
 
     <div id="screen-profile" class="app-screen">
         <div style="margin-top: 50px;">
-            <div style="width: 90px; height: 90px; background: var(--luckin-blue); border-radius: 50%; margin: 0 auto; display:flex; align-items:center; justify-content:center; font-size: 2.5rem; border: 2px solid var(--luckin-orange)">👤</div>
+            <div style="width: 90px; height: 90px; background: var(--card-bg); border-radius: 50%; margin: 0 auto; display:flex; align-items:center; justify-content:center; font-size: 2.5rem; border: 2px solid var(--luckin-orange); box-shadow: var(--neon-glow);">👤</div>
             <h3 style="margin-top: 16px; font-size: 1.3rem;">Постоянный Гость</h3>
-            <p style="color: var(--luckin-orange); font-size: 0.85rem; font-weight:700; margin-top:4px;">XIZE Club • 0 баллов</p>
+            <p style="color: var(--luckin-orange); font-size: 0.85rem; font-weight:700; margin-top:4px; text-shadow: 0 0 5px rgba(255,62,108,0.4);">XIZE Cyber Club</p>
             
-            <div style="margin-top: 30px; background: #fff; border-radius:12px; padding: 15px; text-align: left; max-width: 320px; margin-left:auto; margin-right:auto; box-shadow: 0 4px 8px rgba(0,0,0,0.02);">
-                <div style="display:flex; justify-content:space-between; margin-bottom:12px; font-size:0.9rem; border-bottom:1px solid #f0f2f5; padding-bottom:8px;">
-                    <span>История заказов</span><span>➔</span>
+            <div style="margin-top: 30px; background: var(--card-bg); border: 1px solid rgba(255,255,255,0.05); border-radius:16px; padding: 18px; text-align: left; max-width: 320px; margin-left:auto; margin-right:auto; box-shadow: 0 4px 15px rgba(0,0,0,0.3);">
+                <div style="display:flex; justify-content:space-between; margin-bottom:14px; font-size:0.9rem; border-bottom:1px solid rgba(255,255,255,0.05); padding-bottom:10px;">
+                    <span style="color:#fff;">История заказов</span><span style="color:var(--luckin-orange);">➔</span>
                 </div>
                 <div style="display:flex; justify-content:space-between; font-size:0.9rem;">
-                    <span>Мои купоны</span><span>➔</span>
+                    <span style="color:#fff;">Мои купоны</span><span style="color:var(--luckin-orange);">➔</span>
                 </div>
             </div>
         </div>
@@ -562,20 +593,20 @@
         </div>
         <div style="display:flex; align-items:center; gap:15px;">
             <div style="font-weight:800; font-size:1.1rem; color:#fff;" id="cart-total-display">0 с.</div>
-            <button class="btn-checkout" onclick="toggleCartModal(true)">Открыть</button>
+            <button class="btn-checkout" onclick="toggleCartModal(true)" style="background: var(--luckin-orange); color:#fff; box-shadow: var(--neon-glow);">Открыть</button>
         </div>
     </div>
 
     <div class="cart-modal" id="cart-manager-modal">
         <div class="cart-modal-header">
             <button class="btn-back" onclick="toggleCartModal(false)">←</button>
-            <h3 style="font-size:1.1rem;">Ваш заказ</h3>
+            <h3 style="font-size:1.1rem; text-shadow: var(--neon-glow);">Ваш Cyber Заказ</h3>
         </div>
         <div class="cart-items-list" id="cart-items-container"></div>
         <div class="cart-modal-footer">
             <div class="summary-row">
                 <span>Всего к оплате:</span>
-                <span id="cart-summary-total">0 с.</span>
+                <span id="cart-summary-total" style="color:var(--luckin-orange); text-shadow:var(--neon-glow);">0 с.</span>
             </div>
             <button class="btn-order-now" onclick="placeOrderFinal()">Заказать сейчас</button>
         </div>
@@ -586,11 +617,11 @@
     </div>
 
     <nav class="bottom-nav">
-        <div class="bottom-nav-item" id="btn-nav-home" onclick="switchMainScreen('home')">
+        <div class="bottom-nav-item active" id="btn-nav-home" onclick="switchMainScreen('home')">
             <span>🏠</span>
             <span>Главная</span>
         </div>
-        <div class="bottom-nav-item active" id="btn-nav-menu" onclick="switchMainScreen('menu')">
+        <div class="bottom-nav-item" id="btn-nav-menu" onclick="switchMainScreen('menu')">
             <span>📋</span>
             <span>Меню</span>
         </div>
@@ -610,51 +641,52 @@
         };
 
         const productsDB = {
-            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            102: { name: "Coconut ice from the American", price: 14, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            103: { name: "Light coconut jasmine latte", price: 17, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            104: { name: "Ice-smoked coconut latte", price: 18, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            105: { name: "A Raised Coconut Trio Latte", price: 19, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            106: { name: "Raw Coconut Velvet Latte", price: 17, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            107: { name: "Meteorite latte", price: 18, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            108: { name: "Black Sugar latte", price: 16, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            110: { name: "Muscatine cheese latte", price: 19, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            113: { name: "Velvet latte", price: 15, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            116: { name: "Standard American Style", price: 11, cat: "coffee", img: "☕", bg: "#f0f4f8" },
-            126: { name: "Cappuccino", price: 14, cat: "coffee", img: "☕", bg: "#f0f4f8" },
+            101: { name: "Raw coconut latte (pioneer)", price: 16, cat: "coffee", img: "☕" },
+            102: { name: "Coconut ice from the American", price: 14, cat: "coffee", img: "☕" },
+            103: { name: "Light coconut jasmine latte", price: 17, cat: "coffee", img: "☕" },
+            104: { name: "Ice-smoked coconut latte", price: 18, cat: "coffee", img: "☕" },
+            105: { name: "A Raised Coconut Trio Latte", price: 19, cat: "coffee", img: "☕" },
+            106: { name: "Raw Coconut Velvet Latte", price: 17, cat: "coffee", img: "☕" },
+            107: { name: "Meteorite latte", price: 18, cat: "coffee", img: "☕" },
+            108: { name: "Black Sugar latte", price: 16, cat: "coffee", img: "☕" },
+            110: { name: "Muscatine cheese latte", price: 19, cat: "coffee", img: "☕" },
+            113: { name: "Velvet latte", price: 15, cat: "coffee", img: "☕" },
+            116: { name: "Standard American Style", price: 11, cat: "coffee", img: "☕" },
+            126: { name: "Cappuccino", price: 14, cat: "coffee", img: "☕" },
 
-            201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "🍵", bg: "#e8f5e9" },
-            202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "🍵", bg: "#e8f5e9" },
-            205: { name: "Matcha latte", price: 15, cat: "matcha", img: "🍵", bg: "#e8f5e9" },
+            201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "🍵" },
+            202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "🍵" },
+            205: { name: "Matcha latte", price: 15, cat: "matcha", img: "🍵" },
 
-            301: { name: "Little orange iced tea", price: 12, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            302: { name: "Grape iced tea", price: 13, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            303: { name: "Apple iced tea", price: 12, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            304: { name: "Orange iced tea", price: 12, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            305: { name: "Grapetweet C iced tea", price: 14, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            306: { name: "Grape and lemon tea", price: 13, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            307: { name: "Chilled mango sago cream", price: 16, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            311: { name: "Walden blue mango yogurt", price: 16, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            312: { name: "Avocado soufflé yogurt", price: 18, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            314: { name: "Sweet gourd light fruit tea", price: 14, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            315: { name: "Feathered light fruit", price: 14, cat: "drinks", img: "🍹", bg: "#fff3e0" },
-            316: { name: "Feather jacket light body", price: 15, cat: "drinks", img: "🍹", bg: "#fff3e0" },
+            301: { name: "Little orange iced tea", price: 12, cat: "drinks", img: "🍹" },
+            302: { name: "Grape iced tea", price: 13, cat: "drinks", img: "🍹" },
+            303: { name: "Apple iced tea", price: 12, cat: "drinks", img: "🍹" },
+            304: { name: "Orange iced tea", price: 12, cat: "drinks", img: "🍹" },
+            305: { name: "Grapetweet C iced tea", price: 14, cat: "drinks", img: "🍹" },
+            306: { name: "Grape and lemon tea", price: 13, cat: "drinks", img: "🍹" },
+            307: { name: "Chilled mango sago cream", price: 16, cat: "drinks", img: "🍹" },
+            311: { name: "Walden blue mango yogurt", price: 16, cat: "drinks", img: "🍹" },
+            312: { name: "Avocado soufflé yogurt", price: 18, cat: "drinks", img: "🍹" },
+            314: { name: "Sweet gourd light fruit tea", price: 14, cat: "drinks", img: "🍹" },
+            315: { name: "Feathered light fruit", price: 14, cat: "drinks", img: "🍹" },
+            316: { name: "Feather jacket light body", price: 15, cat: "drinks", img: "🍹" },
 
-            401: { name: "Шаурма Классическая", price: 25, cat: "fastfood", isFood: true, img: "🌯", bg: "#fbe9e7" },
-            402: { name: "Плов Лазер (Говядина)", price: 30, cat: "fastfood", isFood: true, img: "🍛", bg: "#fbe9e7" },
-            403: { name: "Супер Комбо XIZE", price: 40, cat: "fastfood", isFood: true, img: "🍱", bg: "#fbe9e7" },
+            401: { name: "Шаурма Классическая", price: 25, cat: "fastfood", isFood: true, img: "🌯" },
+            402: { name: "Плов Лазер (Говядина)", price: 30, cat: "fastfood", isFood: true, img: "🍛" },
+            403: { name: "Супер Комбо XIZE", price: 40, cat: "fastfood", isFood: true, img: "🍱" },
 
-            501: { name: "Tilami sue cup cake", price: 14, cat: "bakery", isFood: true, img: "🧁", bg: "#fce4ec" },
-            502: { name: "Banana cake", price: 12, cat: "bakery", isFood: true, img: "🍰", bg: "#fce4ec" },
-            503: { name: "Honey cloud cake", price: 15, cat: "bakery", isFood: true, img: "🎂", bg: "#fce4ec" },
-            504: { name: "Beef, cheese sandwich", price: 16, cat: "bakery", isFood: true, img: "🥪", bg: "#fce4ec" },
-            505: { name: "Raw coconut floss", price: 13, cat: "bakery", isFood: true, img: "🥮", bg: "#fce4ec" },
-            506: { name: "Basque cheese toast", price: 14, cat: "bakery", isFood: true, img: "🍞", bg: "#fce4ec" }
+            501: { name: "Tilami sue cup cake", price: 14, cat: "bakery", isFood: true, img: "🧁" },
+            502: { name: "Banana cake", price: 12, cat: "bakery", isFood: true, img: "🍰" },
+            503: { name: "Honey cloud cake", price: 15, cat: "bakery", isFood: true, img: "🎂" },
+            504: { name: "Beef, cheese sandwich", price: 16, cat: "bakery", isFood: true, img: "🥪" },
+            505: { name: "Raw coconut floss", price: 13, cat: "bakery", isFood: true, img: "🥮" },
+            506: { name: "Basque cheese toast", price: 14, cat: "bakery", isFood: true, img: "🍞" }
         };
 
         let cart = [];
         let currentEditingProduct = null;
         let selectedOptions = { ice: "Нормально", sugar: "100%", size: "Стандарт" };
+        let currentActiveTab = "home"; // По умолчанию открывается Главная
 
         window.onload = function() {
             renderSidebar();
@@ -663,6 +695,8 @@
         };
 
         function switchMainScreen(screenName) {
+            currentActiveTab = screenName;
+            
             document.querySelectorAll(".app-screen").forEach(el => {
                 el.classList.remove("active");
                 el.style.display = "none";
@@ -711,13 +745,13 @@
                     if (product.cat === catKey) {
                         html += `
                             <div class="product-card">
-                                <div class="product-img" style="background-color: ${product.bg}">
+                                <div class="product-img">
                                     ${product.img}
                                 </div>
                                 <div class="product-details">
                                     <div>
                                         <div class="product-title">${product.name}</div>
-                                        <div class="product-tag">Luckin Premium Choice</div>
+                                        <div class="product-tag">Premium Choice</div>
                                     </div>
                                     <div class="product-footer">
                                         <div class="product-price">${product.price}<span>с.</span></div>
@@ -750,9 +784,11 @@
         function setupScrollSpy() {
             const contentArea = document.getElementById("menu-content");
             contentArea.addEventListener("scroll", () => {
+                if (currentActiveTab !== 'menu') return;
+
                 let currentSection = "";
                 document.querySelectorAll(".category-section").forEach(sec => {
-                    const top = sec.offsetTop - 120;
+                    const top = sec.offsetTop - 140;
                     if (contentArea.scrollTop >= top) {
                         currentSection = sec.id.replace("sec-", "");
                     }
@@ -761,7 +797,7 @@
             });
         }
 
-        /* КНОПКА КРЕАТИВ (МОДАЛКА НАСТРОЕК НАПИТКА) */
+        /* МОДАЛКА КРЕАТИВ (УДАЛЕНО ВСЁ БЕЛОЕ) */
         function openProductConfig(pId) {
             const product = productsDB[pId];
             currentEditingProduct = { id: pId, ...product };
@@ -811,7 +847,7 @@
                 </div>
 
                 <div class="modal-footer">
-                    <div style="font-size:1.15rem; font-weight:800; color:var(--luckin-blue);" id="modal-price-calc">${product.price} с.</div>
+                    <div style="font-size:1.15rem; font-weight:800; color:#fff;" id="modal-price-calc">${product.price} с.</div>
                     <button class="btn-submit-options" onclick="submitProductWithOptions()">Добавить</button>
                 </div>
             `;
@@ -904,7 +940,7 @@
                         </div>
                         <div class="cart-item-controls">
                             <button class="btn-qty" onclick="changeQty(${index}, -1)">-</button>
-                            <span style="font-weight:700;">${item.qty}</span>
+                            <span style="font-weight:700; color:#fff;">${item.qty}</span>
                             <button class="btn-qty" onclick="changeQty(${index}, 1)">+</button>
                         </div>
                     </div>
