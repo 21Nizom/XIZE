@@ -1036,21 +1036,23 @@
             if (cart.length === 0) return;
 
             let totalPrice = 0;
-            // Делаем строку максимально компактной для легкого сканирования
-            let orderSummary = `XIZE | ${selectedPaymentMethod} | `;
+            let itemsSection = "";
 
             cart.forEach((item, index) => {
                 totalPrice += (item.price * item.qty);
-                // Короткий формат: Название xКол-во
-                orderSummary += `${index + 1}.${item.name} x${item.qty}; `;
+                // Собираем товары компактно: Название(Кол-во)
+                itemsSection += `${item.name}(${item.qty});`;
             });
-            orderSummary += `Total: ${totalPrice} TJS`;
 
-            // Кодируем данные
-            const encodedData = encodeURIComponent(orderSummary);
-            
-            // Изменили параметры API: color=000000 (черный) и bgcolor=ffffff (белый) для 100% считываемости
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedData}&color=000000&bgcolor=ffffff`;
+            // Вставил твой реальный ник 21Nizom
+            const baseUrl = `https://21nizom.github.io/XIZE/cashier.html`;
+
+            // Формируем правильную ссылку с параметрами заказа
+            const finalOrderUrl = `${baseUrl}?pay=${encodeURIComponent(selectedPaymentMethod)}&items=${encodeURIComponent(itemsSection)}&total=${totalPrice}`;
+
+            // Кодируем всю ссылку для генератора QR-кода
+            const encodedQrData = encodeURIComponent(finalOrderUrl);
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedQrData}&color=000000&bgcolor=ffffff`;
 
             document.getElementById("qr-code-image-element").src = qrApiUrl;
             document.getElementById("qr-payment-method-status").innerText = `Оплата через: ${selectedPaymentMethod}`;
