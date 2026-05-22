@@ -1036,16 +1036,21 @@
             if (cart.length === 0) return;
 
             let totalPrice = 0;
-            let orderDetailsText = `XIZE Premium Order\nPayment: ${selectedPaymentMethod}\n`;
+            // Делаем строку максимально компактной для легкого сканирования
+            let orderSummary = `XIZE | ${selectedPaymentMethod} | `;
 
-            cart.forEach(item => {
+            cart.forEach((item, index) => {
                 totalPrice += (item.price * item.qty);
-                orderDetailsText += `- ${item.name} (${item.specs}) x${item.qty}\n`;
+                // Короткий формат: Название xКол-во
+                orderSummary += `${index + 1}.${item.name} x${item.qty}; `;
             });
-            orderDetailsText += `Total: ${totalPrice} TJS`;
+            orderSummary += `Total: ${totalPrice} TJS`;
 
-            const encodedData = encodeURIComponent(orderDetailsText);
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodedData}&color=00f0ff&bgcolor=0b1430`;
+            // Кодируем данные
+            const encodedData = encodeURIComponent(orderSummary);
+            
+            // Изменили параметры API: color=000000 (черный) и bgcolor=ffffff (белый) для 100% считываемости
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodedData}&color=000000&bgcolor=ffffff`;
 
             document.getElementById("qr-code-image-element").src = qrApiUrl;
             document.getElementById("qr-payment-method-status").innerText = `Оплата через: ${selectedPaymentMethod}`;
