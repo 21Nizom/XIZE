@@ -8,7 +8,7 @@
         :root {
             --luckin-blue: #0b1430;       /* Глубокий, насыщенный темно-синий фон */
             --luckin-light-blue: #162454; /* Насыщенный синий для карточек */
-            --luckin-orange: #00f0ff;     /* ТОТ САМЫЙ ЯРКИЙ ЭЛЕКТРИЧЕСКИЙ ГОЛУБОЙ НЕОН вместо розового */
+            --luckin-orange: #00f0ff;     /* Яркий электрический голубой неон */
             --bg-dark: #060b1e;           /* Самый глубокий цвет для подложки */
             --card-bg: #121f4d;           /* Синие насыщенные карточки, никакого белого */
             --text-light: #ffffff;        /* Чистый белый текст для контраста */
@@ -188,7 +188,7 @@
         /* КНОПКА ПЛЮСА С ГОЛУБЫМ СВЕЧЕНИЕМ */
         .btn-add {
             background-color: var(--luckin-orange);
-            color: #060b1e; /* Темный текст на ярком фоне для читаемости */
+            color: #060b1e;
             border: none;
             width: 28px;
             height: 28px;
@@ -537,6 +537,44 @@
             cursor: pointer;
             box-shadow: var(--neon-glow);
         }
+
+        /* НОВАЯ КИБЕР-МОДАЛКА ДЛЯ ОТОБРАЖЕНИЯ СГЕНЕРИРОВАННОГО QR-КОДА */
+        .qr-modal {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(6, 11, 30, 0.95);
+            z-index: 300;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .qr-modal.active {
+            display: flex;
+        }
+        .qr-container-box {
+            background-color: var(--luckin-blue);
+            border: 2px solid var(--luckin-orange);
+            box-shadow: var(--neon-glow);
+            border-radius: 20px;
+            padding: 25px;
+            width: 100%;
+            max-width: 340px;
+            text-align: center;
+        }
+        .qr-image-wrapper {
+            background: #fff;
+            padding: 12px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 20px 0;
+            box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+        }
+        .qr-image-wrapper img {
+            display: block;
+            width: 200px;
+            height: 200px;
+        }
     </style>
 </head>
 <body>
@@ -606,6 +644,20 @@
 
     <div class="modal-overlay" id="product-options-modal">
         <div class="modal-content" id="modal-content-area"></div>
+    </div>
+
+    <div class="qr-modal" id="order-qr-modal">
+        <div class="qr-container-box">
+            <h3 style="font-size: 1.3rem; text-shadow: var(--neon-glow);">Ваш QR-код готов!</h3>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-top: 6px;">Покажите его на кассе для получения</p>
+            
+            <div class="qr-image-wrapper">
+                <img id="qr-code-image-element" src="" alt="XIZE Order QR">
+            </div>
+
+            <div style="color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px;" id="qr-modal-total-price">0 с.</div>
+            <button class="btn-order-now" onclick="closeQRModal()">Закрыть</button>
+        </div>
     </div>
 
     <nav class="bottom-nav">
@@ -949,8 +1001,35 @@
             renderCartItems();
         }
 
+        /* ИСПРАВЛЕННАЯ ФУНКЦИЯ ЗАКАЗА С ГЕНЕРАЦИЕЙ КИБЕР QR-КОДА */
         function placeOrderFinal() {
-            alert("Заказ успешно отправлен! Спасибо за покупку в XIZE Premium!");
+            if (cart.length === 0) return;
+
+            let totalPrice = 0;
+            let orderDetailsText = "XIZE Premium Order:\n";
+
+            cart.forEach(item => {
+                totalPrice += (item.price * item.qty);
+                orderDetailsText += `- ${item.name} (${item.specs}) x${item.qty}\n`;
+            });
+            orderDetailsText += `Total: ${totalPrice} TJS`;
+
+            // Кодируем данные в ссылку для генерации QR-кода через открытое API
+            const encodedData = encodeURIComponent(orderDetailsText);
+            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodedData}&color=00f0ff&bgcolor=0b1430`;
+
+            // Устанавливаем сгенерированный QR-код в элемент изображения
+            document.getElementById("qr-code-image-element").src = qrApiUrl;
+            document.getElementById("qr-modal-total-price").innerText = `Итого: ${totalPrice} с.`;
+
+            // Закрываем окно корзины и выводим модалку с готовым QR
+            toggleCartModal(false);
+            document.getElementById("order-qr-modal").classList.add("active");
+        }
+
+        function closeQRModal() {
+            document.getElementById("order-qr-modal").classList.remove("active");
+            // Очищаем корзину после успешной генерации
             cart = [];
             updateCartUI();
         }
