@@ -35,13 +35,19 @@
 
         header {
             background-color: var(--luckin-blue);
-            padding: 16px;
+            padding: 12px 16px;
             display: flex;
-            justify-content: space-between;
-            align-items: center;
+            flex-direction: column;
+            gap: 10px;
             border-bottom: 1px solid rgba(0, 240, 255, 0.2);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
             z-index: 10;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .brand-name {
@@ -50,6 +56,31 @@
             color: #fff;
             letter-spacing: 0.5px;
             text-shadow: var(--neon-glow);
+        }
+
+        .search-container {
+            width: 100%;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            background-color: var(--luckin-light-blue);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            border-radius: 20px;
+            padding: 8px 16px;
+            color: #fff;
+            font-size: 0.9rem;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .search-input:focus {
+            border-color: var(--luckin-orange);
+            box-shadow: var(--neon-glow);
         }
 
         .main-layout {
@@ -126,6 +157,7 @@
             display: flex;
             gap: 12px;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            position: relative;
         }
 
         .product-img {
@@ -153,6 +185,23 @@
             font-weight: 700;
             color: var(--text-light);
             line-height: 1.3;
+            padding-right: 24px;
+        }
+
+        .btn-fav {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            cursor: pointer;
+        }
+
+        .btn-fav.active {
+            color: #ff3b30;
+            filter: drop-shadow(0 0 5px rgba(255,59,48,0.6));
         }
 
         .product-tag {
@@ -324,7 +373,6 @@
             box-shadow: var(--neon-glow);
         }
 
-        /* КНОПКА КУПИТЬ И ЦЕНА В МОДАЛКЕ */
         .modal-footer {
             display: flex;
             justify-content: space-between;
@@ -341,7 +389,7 @@
         }
 
         .btn-submit-options {
-            background-color: #0055ff; /* Оригинальный синий фон */
+            background-color: #0055ff;
             color: #ffffff;
             border: none;
             padding: 12px 28px;
@@ -349,14 +397,8 @@
             font-size: 0.95rem;
             font-weight: 700;
             cursor: pointer;
-            transition: background 0.2s;
         }
 
-        .btn-submit-options:hover {
-            background-color: #0044cc;
-        }
-
-        /* КРАСИВЫЕ БРЕНДОВЫЕ ЦВЕТА ПЛАТЕЖЕК */
         .chip.pay-dc.active {
             background-color: #0072ff !important;
             border-color: #00d2ff !important;
@@ -572,7 +614,12 @@
 <body>
 
     <header>
-        <div class="brand-name">XIZE Premium</div>
+        <div class="header-top">
+            <div class="brand-name">XIZE Premium</div>
+        </div>
+        <div class="search-container" id="search-bar-wrapper" style="display:none;">
+            <input type="text" class="search-input" id="menu-search-input" placeholder="Поиск любимого кофе или десерта..." oninput="handleSearch()">
+        </div>
     </header>
 
     <div id="screen-home" class="app-screen active">
@@ -589,12 +636,14 @@
         <main class="content" id="menu-content"></main>
     </div>
 
-    <div id="screen-profile" class="app-screen">
-        <div style="margin-top: 50px;">
-            <div style="width: 90px; height: 90px; background: var(--card-bg); border-radius: 50%; margin: 0 auto; display:flex; align-items:center; justify-content:center; font-size: 2.5rem; border: 2px solid var(--luckin-orange); box-shadow: var(--neon-glow);">👤</div>
-            <h3 style="margin-top: 16px; font-size: 1.3rem;">Постоянный Гость</h3>
-            <p style="color: var(--luckin-orange); font-size: 0.85rem; font-weight:700; margin-top:4px;">XIZE Club</p>
+    <div id="screen-profile" class="app-screen" style="text-align:left;">
+        <div style="text-align: center; margin-top: 20px; margin-bottom: 30px;">
+            <div style="width: 80px; height: 80px; background: var(--card-bg); border-radius: 50%; margin: 0 auto; display:flex; align-items:center; justify-content:center; font-size: 2.2rem; border: 2px solid var(--luckin-orange); box-shadow: var(--neon-glow);">👤</div>
+            <h3 style="margin-top: 12px; font-size: 1.2rem;">Постоянный Гость</h3>
+            <p style="color: var(--luckin-orange); font-size: 0.8rem; font-weight:700;">XIZE Club</p>
         </div>
+        <h3 style="font-size:1.1rem; border-left:4px solid #ff3b30; padding-left:8px; margin-bottom:15px; text-shadow: 0 0 10px rgba(255,59,48,0.4);">❤️ Моё Избранное</h3>
+        <div id="favorites-container"></div>
     </div>
 
     <div class="cart-bar" id="cart-floating-bar">
@@ -736,6 +785,7 @@
         };
 
         let cart = [];
+        let favorites = JSON.parse(localStorage.getItem('xize_favs')) || [];
         let currentEditingProduct = null;
         let selectedOptions = { ice: "Нормально", sugar: "100%", size: "Средний" };
         let selectedPaymentMethod = "Dushanbe City";
@@ -745,6 +795,7 @@
             renderSidebar();
             renderCatalog();
             setupScrollSpy();
+            renderFavorites();
         };
 
         function switchMainScreen(screenName) {
@@ -757,12 +808,19 @@
 
             const targetScreen = document.getElementById(`screen-${screenName}`);
             const targetButton = document.getElementById(`btn-nav-${screenName}`);
+            const searchBar = document.getElementById("search-bar-wrapper");
             
-            if (screenName === 'menu') targetScreen.style.display = "flex";
-            else targetScreen.style.display = "block";
+            if (screenName === 'menu') {
+                targetScreen.style.display = "flex";
+                searchBar.style.display = "block";
+            } else {
+                targetScreen.style.display = "block";
+                searchBar.style.display = "none";
+            }
             
             targetScreen.classList.add("active");
             if (targetButton) targetButton.classList.add("active");
+            if (screenName === 'profile') renderFavorites();
         }
 
         function renderSidebar() {
@@ -776,16 +834,25 @@
             sidebar.innerHTML = html;
         }
 
-        function renderCatalog() {
+        function renderCatalog(filterText = "") {
             const container = document.getElementById("menu-content");
             let html = "";
+            const search = filterText.toLowerCase().trim();
+
             for (let catKey in categories) {
-                html += `<section class="category-section" id="sec-${catKey}"><h2>${categories[catKey].name}</h2>`;
+                let sectionHtml = "";
+                let hasVisibleItems = false;
+
                 for (let pId in productsDB) {
                     const product = productsDB[pId];
                     if (product.cat === catKey) {
-                        html += `
+                        if (search && !product.name.toLowerCase().includes(search)) continue;
+                        hasVisibleItems = true;
+                        const isFav = favorites.includes(parseInt(pId));
+
+                        sectionHtml += `
                             <div class="product-card">
+                                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${pId})">❤️</button>
                                 <div class="product-img">${product.img}</div>
                                 <div class="product-details">
                                     <div>
@@ -800,8 +867,57 @@
                             </div>`;
                     }
                 }
-                html += `</section>`;
+
+                if (hasVisibleItems) {
+                    html += `<section class="category-section" id="sec-${catKey}"><h2>${categories[catKey].name}</h2>${sectionHtml}</section>`;
+                }
             }
+            container.innerHTML = html || `<div style="text-align:center;color:var(--text-muted);margin-top:40px;">Ничего не найдено</div>`;
+        }
+
+        function handleSearch() {
+            const val = document.getElementById("menu-search-input").value;
+            renderCatalog(val);
+        }
+
+        function toggleFav(event, pId) {
+            event.stopPropagation();
+            pId = parseInt(pId);
+            const idx = favorites.indexOf(pId);
+            if (idx > -1) favorites.splice(idx, 1);
+            else favorites.push(pId);
+            
+            localStorage.setItem('xize_favs', JSON.stringify(favorites));
+            renderCatalog(document.getElementById("menu-search-input").value);
+            if (currentActiveTab === 'profile') renderFavorites();
+        }
+
+        function renderFavorites() {
+            const container = document.getElementById("favorites-container");
+            if (favorites.length === 0) {
+                container.innerHTML = `<div style="color:var(--text-muted); font-size:0.9rem; padding-left:5px;">Здесь будут ваши любимые товары. Нажмите ❤️ на товаре в меню!</div>`;
+                return;
+            }
+            let html = "";
+            favorites.forEach(pId => {
+                const product = productsDB[pId];
+                if (product) {
+                    html += `
+                        <div class="product-card">
+                            <button class="btn-fav active" onclick="toggleFav(event, ${pId})">❤️</button>
+                            <div class="product-img">${product.img}</div>
+                            <div class="product-details">
+                                <div>
+                                    <div class="product-title">${product.name}</div>
+                                </div>
+                                <div class="product-footer">
+                                    <div class="product-price">${product.price}<span>с.</span></div>
+                                    <button class="btn-add" onclick="openProductConfig(${pId})">+</button>
+                                </div>
+                            </div>
+                        </div>`;
+                }
+            });
             container.innerHTML = html;
         }
 
@@ -822,7 +938,7 @@
         function setupScrollSpy() {
             const contentArea = document.getElementById("menu-content");
             contentArea.addEventListener("scroll", () => {
-                if (currentActiveTab !== 'menu') return;
+                if (currentActiveTab !== 'menu' || document.getElementById("menu-search-input").value !== "") return;
                 let currentSection = "";
                 document.querySelectorAll(".category-section").forEach(sec => {
                     const top = sec.offsetTop - 140;
@@ -845,7 +961,6 @@
             const modalOverlay = document.getElementById("product-options-modal");
             const contentArea = document.getElementById("modal-content-area");
 
-            // ТУТ ВОЗВРАЩЕНЫ ВСЕ ТВОИ ТРИ РАЗМЕРА, САХАР, ЛЁД И ТЕМПЕРАТУРА
             contentArea.innerHTML = `
                 <div class="modal-header">
                     <div>
@@ -919,7 +1034,6 @@
             let finalPrice = currentEditingProduct.price;
             if (selectedOptions.size === "Большой") finalPrice += 3;
             
-            // Собираем полное описание для корзины
             const specsText = `${selectedOptions.size}, ${selectedOptions.temp || 'Холодный'}, Сахар: ${selectedOptions.sugar}, Лед: ${selectedOptions.ice}`;
             addToCartFinal(currentEditingProduct.id, currentEditingProduct.name, finalPrice, specsText);
             closeModal();
