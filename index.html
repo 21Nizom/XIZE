@@ -2,7 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#060b1e">
     <title>XIZE Premium</title>
     <style>
         :root {
@@ -70,7 +71,7 @@
             border-radius: 20px;
             padding: 8px 16px;
             color: #fff;
-            font-size: 0.9rem;
+            font-size: 16px;
             outline: none;
         }
 
@@ -127,6 +128,7 @@
         }
 
         .content {
+            position: relative;
             flex: 1;
             overflow-y: auto;
             padding: 12px;
@@ -232,8 +234,8 @@
             background-color: var(--luckin-orange);
             color: #060b1e;
             border: none;
-            width: 28px;
-            height: 28px;
+            width: 36px;
+            height: 36px;
             border-radius: 50%;
             font-size: 1.2rem;
             font-weight: 700;
@@ -248,7 +250,7 @@
             display: none;
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 20px 20px 160px;
             text-align: center;
         }
 
@@ -609,9 +611,50 @@
             width: 200px;
             height: 200px;
         }
+
+        /* ===== Анимации ===== */
+        #bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; pointer-events: none; opacity: 0; transition: opacity .5s; }
+        .hero-bolt { position: relative; display: inline-block; width: 120px; height: 120px; line-height: 120px; font-size: 4.6rem; margin-bottom: 10px; filter: drop-shadow(0 0 20px rgba(0,240,255,.6)); animation: boltFloat 3s ease-in-out infinite; }
+        .hero-bolt::before, .hero-bolt::after { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(0,240,255,.5); }
+        .hero-bolt::before { border-style: dashed; animation: spin 8s linear infinite; }
+        .hero-bolt::after { animation: ring 2.4s ease-out infinite; }
+        @keyframes boltFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @keyframes ring { from { transform: scale(.8); opacity: .9; } to { transform: scale(1.7); opacity: 0; } }
+        .app-screen.enter { animation: screenIn .35s ease both; }
+        @keyframes screenIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+        .product-card.pre { opacity: 0; transform: translateY(18px) scale(.97); transition: opacity .45s ease, transform .45s cubic-bezier(.2,.8,.2,1); }
+        .product-card.pre.in { opacity: 1; transform: none; }
+        .btn-add { transition: transform .15s; }
+        .btn-add:active, .chip:active, .btn-order-now:active, .btn-checkout:active, .btn-submit-options:active { transform: scale(.92); }
+        .btn-fav.pop { animation: heartPop .45s; }
+        @keyframes heartPop { 0% { transform: scale(1); } 40% { transform: scale(1.6) rotate(-12deg); } 100% { transform: scale(1); } }
+        .bump { animation: bump .35s; }
+        @keyframes bump { 0% { transform: scale(1); } 50% { transform: scale(1.5); } 100% { transform: scale(1); } }
+        .fly-item { position: fixed; z-index: 500; font-size: 1.8rem; pointer-events: none; filter: drop-shadow(0 0 8px #00f0ff); }
+        .modal-overlay.active { animation: fadeIn .25s ease; }
+        .modal-overlay.active .modal-content { animation: sheetUp .35s cubic-bezier(.2,.8,.2,1); }
+        .cart-modal.active { animation: slideLeft .3s ease; }
+        .qr-modal.active { animation: fadeIn .25s ease; }
+        .qr-modal.active .qr-container-box { animation: popIn .45s cubic-bezier(.2,1.2,.3,1); }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes sheetUp { from { transform: translateY(100%); } to { transform: none; } }
+        @keyframes slideLeft { from { transform: translateX(30px); opacity: 0; } to { transform: none; opacity: 1; } }
+        @keyframes popIn { from { transform: scale(.8); opacity: 0; } to { transform: none; opacity: 1; } }
+        .qr-image-wrapper { position: relative; overflow: hidden; }
+        .qr-image-wrapper::after { content: ''; position: absolute; left: 0; right: 0; top: 0; height: 3px; background: linear-gradient(90deg, transparent, #00f0ff, transparent); box-shadow: 0 0 14px #00f0ff; animation: scan 2s ease-in-out infinite; }
+        @keyframes scan { 0%,100% { top: 0; } 50% { top: calc(100% - 3px); } }
+        .qr-image-wrapper.loading img { opacity: .15; }
+        .qr-image-wrapper.loading::before { content: ''; position: absolute; top: 50%; left: 50%; width: 34px; height: 34px; margin: -17px; border: 3px solid #cde; border-top-color: #00f0ff; border-radius: 50%; animation: spin .8s linear infinite; z-index: 2; }
+        #qr-error { display: none; color: #ff6b6b; font-size: .8rem; margin-bottom: 14px; }
+        .table-field { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+        .table-field input { width: 80px; background: var(--luckin-light-blue); border: 1px solid rgba(0,240,255,.3); border-radius: 10px; color: #fff; padding: 8px; font-size: 16px; text-align: center; outline: none; }
+        .qr-image-wrapper img { width: 240px; height: 240px; }
+        @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
     </style>
 </head>
 <body>
+    <canvas id="bg-canvas"></canvas>
 
     <header>
         <div class="header-top">
@@ -624,7 +667,7 @@
 
     <div id="screen-home" class="app-screen active">
         <div style="margin-top: 60px; padding: 0 20px; text-align: center;">
-            <div style="font-size: 5rem; filter: drop-shadow(0 0 20px rgba(0,240,255,0.6)); margin-bottom: 10px;">⚡</div>
+            <div class="hero-bolt">⚡</div>
             
             <h2 style="font-size: 2.2rem; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; background: linear-gradient(45deg, #ffffff, #00f0ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
                 XIZE Premium
@@ -681,6 +724,7 @@
             <div id="cart-items-container"></div>
             
             <div class="payment-selection-box" id="payment-box-section" style="display:none;">
+                <div class="table-field"><label class="option-label" for="table-input" style="margin:0;">Номер стола</label><input type="number" id="table-input" min="1" max="99" value="1" inputmode="numeric"></div>
                 <div class="option-label" style="margin-bottom:10px;">Способ оплаты</div>
                 <div class="option-selector-chips">
                     <div class="chip pay-dc active" onclick="setPaymentMethod(this, 'Dushanbe City')">DC Wallet</div>
@@ -709,6 +753,7 @@
             <div class="qr-image-wrapper">
                 <img id="qr-code-image-element" src="" alt="XIZE Order QR">
             </div>
+            <div id="qr-error">Не удалось загрузить QR-код. Проверьте интернет и нажмите «Изменить оплату», затем «Заказать сейчас».</div>
             <div style="color: #fff; font-weight: 700; font-size: 1.1rem; margin-bottom: 20px;" id="qr-modal-total-price">0 с.</div>
             <button class="btn-order-now" onclick="cancelAndReturnToCart()" style="background:#7a8ebf; color:#060b1e; box-shadow:none;">Изменить оплату</button>
         </div>
@@ -762,7 +807,7 @@
             130: { name: "Pomelo C American", price: 15, cat: "coffee", img: "☕" },
             131: { name: "Cocoa Vienna", price: 16, cat: "coffee", img: "☕" },
             132: { name: "Crimson Moon Light", price: 17, cat: "coffee", img: "☕" },
-            133: { name: "«520» 年度特调", price: 19, cat: "coffee", img: "☕" },
+            133: { name: "«520» Special Blend", price: 19, cat: "coffee", img: "☕" },
             201: { name: "Coconut cloud matcha", price: 17, cat: "matcha", img: "🍵" },
             202: { name: "Cheddar cheese matcha", price: 18, cat: "matcha", img: "🍵" },
             203: { name: "Rye matcha", price: 16, cat: "matcha", img: "🍵" },
@@ -800,9 +845,9 @@
         };
 
         let cart = [];
-        let favorites = JSON.parse(localStorage.getItem('xize_favs')) || [];
+        let favorites = loadFavs();
         let currentEditingProduct = null;
-        let selectedOptions = { ice: "Нормально", sugar: "100%", size: "Средний" };
+        let selectedOptions = { ice: "Нормально", sugar: "100%", size: "Средний", temp: "Холодный" };
         let selectedPaymentMethod = "Dushanbe City";
         let currentActiveTab = "home";
 
@@ -810,6 +855,7 @@
             renderSidebar();
             renderCatalog();
             setupScrollSpy();
+            initEffects();
             renderFavorites();
         };
 
@@ -836,6 +882,8 @@
             targetScreen.classList.add("active");
             if (targetButton) targetButton.classList.add("active");
             if (screenName === 'profile') renderFavorites();
+            animateScreen(targetScreen);
+            setBg(screenName === 'home');
         }
 
         function renderSidebar() {
@@ -850,6 +898,11 @@
         }
 
         function renderCatalog(filterText = "") {
+            renderCatalogBase(filterText);
+            observeCards(!String(filterText).trim());
+        }
+
+        function renderCatalogBase(filterText = "") {
             const container = document.getElementById("menu-content");
             let html = "";
             const search = filterText.toLowerCase().trim();
@@ -867,7 +920,7 @@
 
                         sectionHtml += `
                             <div class="product-card">
-                                <button class="btn-fav ${isFav ? 'active' : ''}" onclick="toggleFav(event, ${pId})">❤️</button>
+                                <button class="btn-fav ${isFav ? 'active' : ''}" data-id="${pId}" aria-label="В избранное" onclick="toggleFav(event, ${pId})">❤️</button>
                                 <div class="product-img">${product.img}</div>
                                 <div class="product-details">
                                     <div>
@@ -902,8 +955,12 @@
             if (idx > -1) favorites.splice(idx, 1);
             else favorites.push(pId);
             
-            localStorage.setItem('xize_favs', JSON.stringify(favorites));
-            renderCatalog(document.getElementById("menu-search-input").value);
+            try { localStorage.setItem('xize_favs', JSON.stringify(favorites)); } catch (e) {}
+            document.querySelectorAll('.btn-fav[data-id="' + pId + '"]').forEach(b => {
+                const on = favorites.includes(pId);
+                b.classList.toggle('active', on);
+                if (on) { b.classList.remove('pop'); void b.offsetWidth; b.classList.add('pop'); }
+            });
             if (currentActiveTab === 'profile') renderFavorites();
         }
 
@@ -919,7 +976,7 @@
                 if (product) {
                     html += `
                         <div class="product-card">
-                            <button class="btn-fav active" onclick="toggleFav(event, ${pId})">❤️</button>
+                            <button class="btn-fav active" data-id="${pId}" aria-label="Убрать из избранного" onclick="toggleFav(event, ${pId})">❤️</button>
                             <div class="product-img">${product.img}</div>
                             <div class="product-details">
                                 <div>
@@ -939,7 +996,7 @@
         function scrollToCategory(catKey) {
             const target = document.getElementById(`sec-${catKey}`);
             if (target) {
-                target.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById("menu-content").scrollTo({ top: target.offsetTop - 4, behavior: 'smooth' });
                 updateActiveTab(catKey);
             }
         }
@@ -956,9 +1013,11 @@
                 if (currentActiveTab !== 'menu' || document.getElementById("menu-search-input").value !== "") return;
                 let currentSection = "";
                 document.querySelectorAll(".category-section").forEach(sec => {
-                    const top = sec.offsetTop - 140;
+                    const top = sec.offsetTop - 80;
                     if (contentArea.scrollTop >= top) currentSection = sec.id.replace("sec-", "");
                 });
+                const secs = document.querySelectorAll(".category-section");
+                if (secs.length && contentArea.scrollTop + contentArea.clientHeight >= contentArea.scrollHeight - 4) currentSection = secs[secs.length - 1].id.replace("sec-", "");
                 if (currentSection) updateActiveTab(currentSection);
             });
         }
@@ -966,7 +1025,7 @@
         function openProductConfig(pId) {
             const product = productsDB[pId];
             currentEditingProduct = { id: pId, ...product };
-            selectedOptions = { ice: "Нормально", sugar: "100%", size: "Средний" };
+            selectedOptions = { ice: "Нормально", sugar: "100%", size: "Средний", temp: "Холодный" };
 
             if (product.isFood) {
                 addToCartFinal(pId, product.name, product.price, "Порция");
@@ -1013,7 +1072,7 @@
                 </div>
 
                 <div class="option-group">
-                    <div class="option-label">Лед</div>
+                    <div class="option-label" id="ice-label">Лед</div>
                     <div class="option-selector-chips">
                         <div class="chip" onclick="setOpt(this, 'ice', 'Без льда')">Без льда</div>
                         <div class="chip" onclick="setOpt(this, 'ice', 'Мало льда')">Мало льда</div>
@@ -1034,6 +1093,14 @@
             element.parentElement.querySelectorAll(".chip").forEach(ch => ch.classList.remove("active"));
             element.classList.add("active");
             selectedOptions[key] = value;
+            if (key === 'temp') {
+                const grp = document.getElementById('ice-label').parentElement;
+                if (value === 'Горячий') { grp.style.display = 'none'; selectedOptions.ice = 'Без льда'; }
+                else {
+                    grp.style.display = ''; selectedOptions.ice = 'Нормально';
+                    grp.querySelectorAll('.chip').forEach(ch => ch.classList.toggle('active', ch.textContent.trim() === 'Нормально'));
+                }
+            }
             let currentPrice = currentEditingProduct.price;
             if (selectedOptions.size === "Большой") currentPrice += 3;
             document.getElementById("modal-price-calc").innerText = `${currentPrice} с.`;
@@ -1049,15 +1116,17 @@
             let finalPrice = currentEditingProduct.price;
             if (selectedOptions.size === "Большой") finalPrice += 3;
             
-            const specsText = `${selectedOptions.size}, ${selectedOptions.temp || 'Холодный'}, Сахар: ${selectedOptions.sugar}, Лед: ${selectedOptions.ice}`;
-            addToCartFinal(currentEditingProduct.id, currentEditingProduct.name, finalPrice, specsText);
+            const hot = selectedOptions.temp === 'Горячий';
+            const specsText = `${selectedOptions.size}, ${selectedOptions.temp || 'Холодный'}, Сахар: ${selectedOptions.sugar}` + (hot ? '' : `, Лед: ${selectedOptions.ice}`);
+            addToCartFinal(currentEditingProduct.id, currentEditingProduct.name, finalPrice, specsText, { ...selectedOptions });
             closeModal();
         }
 
-        function addToCartFinal(pId, name, price, specs) {
+        function addToCartFinal(pId, name, price, specs, opts) {
             const existingIndex = cart.findIndex(item => item.id === pId && item.specs === specs);
+            flyToCart(pId, cart.length === 0);
             if (existingIndex > -1) cart[existingIndex].qty++;
-            else cart.push({ id: pId, name: name, price: price, specs: specs, qty: 1 });
+            else cart.push({ id: pId, name: name, price: price, specs: specs, qty: 1, opts: opts || null });
             updateCartUI();
         }
 
@@ -1071,6 +1140,7 @@
 
             if (totalQty > 0) {
                 badge.innerText = totalQty;
+                bump(badge);
                 totalDisplay.innerText = `${totalPrice} с.`;
                 bar.classList.add("active");
                 document.getElementById("payment-box-section").style.display = "block";
@@ -1123,21 +1193,19 @@
 
             cart.forEach(item => {
                 totalPrice += (item.price * item.qty);
-                let modsArray = [];
-                if (item.specs.includes("Большой")) modsArray.push("*sizel");
-                else if (item.specs.includes("Средний")) modsArray.push("*sizem");
-                else if (item.specs.includes("Маленький")) modsArray.push("*sizes");
+                let modsArray = buildMods(item);
+                
+                
+                
                 let modsString = modsArray.length > 0 ? "_" + modsArray.join(",") : "";
                 dataParts.push(`${item.id}_${item.qty}${modsString}`);
             });
 
             const cryptoData = dataParts.join('|');
             const baseUrl = `https://21nizom.github.io/XIZE/cashier.html`;
-            const finalOrderUrl = `${baseUrl}?table=1&pay=${encodeURIComponent(selectedPaymentMethod)}&data=${encodeURIComponent(cryptoData)}`;
+            const finalOrderUrl = `${baseUrl}?table=${getTable()}&id=${newOrderId()}&pay=${encodeURIComponent(selectedPaymentMethod)}&data=${encodeURIComponent(cryptoData)}`;
 
-            const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encodeURIComponent(finalOrderUrl)}&color=000000&bgcolor=ffffff`;
-
-            document.getElementById("qr-code-image-element").src = qrApiUrl;
+            loadQr(finalOrderUrl);
             document.getElementById("qr-payment-method-status").innerText = `Оплата через: ${selectedPaymentMethod}`;
             document.getElementById("qr-modal-total-price").innerText = `Итого: ${totalPrice} с.`;
 
@@ -1148,6 +1216,259 @@
         function cancelAndReturnToCart() {
             document.getElementById("order-qr-modal").classList.remove("active");
             document.getElementById("cart-manager-modal").classList.add("active");
+        }
+
+        // ================= Исправления и эффекты =================
+        const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function loadFavs() {
+            try { const v = JSON.parse(localStorage.getItem('xize_favs')); return Array.isArray(v) ? v : []; }
+            catch (e) { return []; }
+        }
+        function getTable() { return Math.min(99, Math.max(1, parseInt(document.getElementById('table-input').value, 10) || 1)); }
+        function newOrderId() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 6); }
+
+        // Все выбранные опции уходят на кассу, а не только размер
+        function buildMods(item) {
+            const o = item.opts;
+            if (!o) return [];
+            const m = [o.size === 'Большой' ? '*sizel' : o.size === 'Маленький' ? '*sizes' : '*sizem'];
+            m.push(o.temp === 'Горячий' ? '*hot' : '*cold');
+            m.push('*sg' + parseInt(o.sugar, 10));
+            if (o.temp !== 'Горячий') m.push('*ice' + ({ 'Без льда': 0, 'Мало льда': 1, 'Нормально': 2 }[o.ice] ?? 2));
+            return m;
+        }
+
+        // ===== Локальный генератор QR-кода (без интернета), байтовый режим, коррекция M, версии 1-20 =====
+        function qrMatrix(text) {
+            const ECC = [0,10,16,26,18,24,16,18,22,22,26,30,22,22,24,24,28,28,26,26,26];
+            const BLK = [0,1,1,1,2,2,4,4,4,5,5,5,8,9,9,10,10,11,13,14,16];
+            const rawModules = (v) => { let r = (16 * v + 128) * v + 64; if (v >= 2) { const a = Math.floor(v / 7) + 2; r -= (25 * a - 10) * a - 55; if (v >= 7) r -= 36; } return r; };
+            const dataCw = (v) => Math.floor(rawModules(v) / 8) - ECC[v] * BLK[v];
+            const mul = (x, y) => { let z = 0; for (let i = 7; i >= 0; i--) { z = (z << 1) ^ ((z >>> 7) * 0x11D); z ^= ((y >>> i) & 1) * x; } return z; };
+            const rsGen = (d) => { const r = new Array(d).fill(0); r[d - 1] = 1; let root = 1; for (let i = 0; i < d; i++) { for (let j = 0; j < d; j++) { r[j] = mul(r[j], root); if (j + 1 < d) r[j] ^= r[j + 1]; } root = mul(root, 2); } return r; };
+            const rsRem = (data, gen) => { const r = new Array(gen.length).fill(0); for (const b of data) { const f = b ^ r.shift(); r.push(0); gen.forEach((c, i) => { r[i] ^= mul(c, f); }); } return r; };
+
+            const bytes = Array.from(new TextEncoder().encode(text));
+            let v = 1;
+            for (; v <= 20; v++) if (4 + (v < 10 ? 8 : 16) + bytes.length * 8 <= dataCw(v) * 8) break;
+            if (v > 20) throw new Error('too long');
+
+            const bits = [];
+            const put = (val, len) => { for (let i = len - 1; i >= 0; i--) bits.push((val >>> i) & 1); };
+            put(4, 4); put(bytes.length, v < 10 ? 8 : 16); bytes.forEach(b => put(b, 8));
+            const cap = dataCw(v) * 8;
+            put(0, Math.min(4, cap - bits.length)); put(0, (8 - bits.length % 8) % 8);
+            for (let pad = 0xEC; bits.length < cap; pad ^= 0xEC ^ 0x11) put(pad, 8);
+            const data = [];
+            for (let i = 0; i < bits.length; i += 8) { let b = 0; for (let j = 0; j < 8; j++) b = (b << 1) | bits[i + j]; data.push(b); }
+
+            const nb = BLK[v], ecl = ECC[v], total = Math.floor(rawModules(v) / 8);
+            const shortLen = Math.floor(total / nb) - ecl, numShort = nb - total % nb;
+            const gen = rsGen(ecl), blocks = [];
+            for (let i = 0, k = 0; i < nb; i++) {
+                const len = shortLen + (i < numShort ? 0 : 1);
+                const d = data.slice(k, k + len); k += len;
+                const e = rsRem(d, gen);
+                if (i < numShort) d.push(0);
+                blocks.push(d.concat(e));
+            }
+            const all = [];
+            for (let i = 0; i < blocks[0].length; i++) for (let j = 0; j < nb; j++) if (i !== shortLen || j >= numShort) all.push(blocks[j][i]);
+
+            const size = v * 4 + 17;
+            const m = Array.from({ length: size }, () => new Array(size).fill(false));
+            const fn = Array.from({ length: size }, () => new Array(size).fill(false));
+            const set = (x, y, d) => { m[y][x] = d; fn[y][x] = true; };
+            for (let i = 0; i < size; i++) { set(6, i, i % 2 === 0); set(i, 6, i % 2 === 0); }
+            const finder = (cx, cy) => { for (let dy = -4; dy <= 4; dy++) for (let dx = -4; dx <= 4; dx++) { const dist = Math.max(Math.abs(dx), Math.abs(dy)), x = cx + dx, y = cy + dy; if (x >= 0 && x < size && y >= 0 && y < size) set(x, y, dist !== 2 && dist !== 4); } };
+            finder(3, 3); finder(size - 4, 3); finder(3, size - 4);
+            const pos = [];
+            if (v > 1) { const n = Math.floor(v / 7) + 2, step = Math.floor((v * 8 + n * 3 + 5) / (n * 4 - 4)) * 2; pos.push(6); for (let p = size - 7; pos.length < n; p -= step) pos.splice(1, 0, p); }
+            pos.forEach((cy, i) => pos.forEach((cx, j) => {
+                if ((i === 0 && j === 0) || (i === 0 && j === pos.length - 1) || (i === pos.length - 1 && j === 0)) return;
+                for (let dy = -2; dy <= 2; dy++) for (let dx = -2; dx <= 2; dx++) set(cx + dx, cy + dy, Math.max(Math.abs(dx), Math.abs(dy)) !== 1);
+            }));
+            const drawFormat = (mask) => {
+                let rem = mask; for (let i = 0; i < 10; i++) rem = (rem << 1) ^ ((rem >>> 9) * 0x537);
+                const f = ((mask << 10) | rem) ^ 0x5412, bit = (i) => ((f >>> i) & 1) !== 0;
+                for (let i = 0; i <= 5; i++) set(8, i, bit(i));
+                set(8, 7, bit(6)); set(8, 8, bit(7)); set(7, 8, bit(8));
+                for (let i = 9; i < 15; i++) set(14 - i, 8, bit(i));
+                for (let i = 0; i < 8; i++) set(size - 1 - i, 8, bit(i));
+                for (let i = 8; i < 15; i++) set(8, size - 15 + i, bit(i));
+                set(8, size - 8, true);
+            };
+            drawFormat(0);
+            if (v >= 7) {
+                let rem = v; for (let i = 0; i < 12; i++) rem = (rem << 1) ^ ((rem >>> 11) * 0x1F25);
+                const vb = (v << 12) | rem;
+                for (let i = 0; i < 18; i++) { const b = ((vb >>> i) & 1) !== 0, a = size - 11 + i % 3, c = Math.floor(i / 3); set(a, c, b); set(c, a, b); }
+            }
+            let bi = 0;
+            for (let right = size - 1; right >= 1; right -= 2) {
+                if (right === 6) right = 5;
+                for (let vert = 0; vert < size; vert++) for (let j = 0; j < 2; j++) {
+                    const x = right - j, y = ((right + 1) & 2) === 0 ? size - 1 - vert : vert;
+                    if (!fn[y][x] && bi < all.length * 8) { m[y][x] = ((all[bi >>> 3] >>> (7 - (bi & 7))) & 1) !== 0; bi++; }
+                }
+            }
+            const masks = [(x, y) => (x + y) % 2 === 0, (x, y) => y % 2 === 0, (x, y) => x % 3 === 0, (x, y) => (x + y) % 3 === 0,
+                (x, y) => (Math.floor(x / 3) + Math.floor(y / 2)) % 2 === 0, (x, y) => x * y % 2 + x * y % 3 === 0,
+                (x, y) => (x * y % 2 + x * y % 3) % 2 === 0, (x, y) => ((x + y) % 2 + x * y % 3) % 2 === 0];
+            const applyMask = (k) => { for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (!fn[y][x] && masks[k](x, y)) m[y][x] = !m[y][x]; };
+            const penalty = () => {
+                let p = 0;
+                const lines = m.map(r => r.map(c => (c ? '1' : '0')).join(''));
+                for (let x = 0; x < size; x++) lines.push(m.map(r => (r[x] ? '1' : '0')).join(''));
+                for (const line of lines) {
+                    let run = 1;
+                    for (let i = 1; i <= size; i++) { if (i < size && line[i] === line[i - 1]) run++; else { if (run >= 5) p += 3 + run - 5; run = 1; } }
+                    for (const pat of ['10111010000', '00001011101']) { let idx = line.indexOf(pat); while (idx >= 0) { p += 40; idx = line.indexOf(pat, idx + 1); } }
+                }
+                for (let y = 0; y < size - 1; y++) for (let x = 0; x < size - 1; x++) { const c = m[y][x]; if (c === m[y][x + 1] && c === m[y + 1][x] && c === m[y + 1][x + 1]) p += 3; }
+                let dark = 0; m.forEach(r => r.forEach(c => { if (c) dark++; }));
+                return p + (Math.ceil(Math.abs(dark * 20 - size * size * 10) / (size * size)) - 1) * 10;
+            };
+            let best = 0, bestP = Infinity;
+            for (let k = 0; k < 8; k++) { applyMask(k); drawFormat(k); const p = penalty(); if (p < bestP) { best = k; bestP = p; } applyMask(k); }
+            applyMask(best); drawFormat(best);
+            return { size, m };
+        }
+
+        function qrToDataUrl(text) {
+            const { size, m } = qrMatrix(text), q = 4, s = 8;
+            const cv = document.createElement('canvas');
+            cv.width = cv.height = (size + q * 2) * s;
+            const c = cv.getContext('2d');
+            c.fillStyle = '#fff'; c.fillRect(0, 0, cv.width, cv.height);
+            c.fillStyle = '#000';
+            for (let y = 0; y < size; y++) for (let x = 0; x < size; x++) if (m[y][x]) c.fillRect((x + q) * s, (y + q) * s, s, s);
+            return cv.toDataURL('image/png');
+        }
+
+        function loadQr(text) {
+            const img = document.getElementById('qr-code-image-element');
+            const wrap = img.parentElement, err = document.getElementById('qr-error');
+            err.style.display = 'none';
+            try {
+                img.src = qrToDataUrl(text);
+                wrap.classList.remove('loading');
+            } catch (e) {
+                wrap.classList.remove('loading');
+                err.textContent = 'Заказ слишком большой для одного QR-кода. Уберите часть позиций.';
+                err.style.display = 'block';
+            }
+        }
+
+        function bump(el) { el.classList.remove('bump'); void el.offsetWidth; el.classList.add('bump'); }
+
+        let lastTapEl = null;
+        document.addEventListener('click', (e) => {
+            const b = e.target.closest && e.target.closest('.btn-add, .btn-submit-options');
+            if (b) lastTapEl = b;
+        }, true);
+
+        // Эмодзи товара «летит» в корзину
+        function flyToCart(pId, wasEmpty) {
+            const p = productsDB[pId];
+            if (REDUCED || !lastTapEl || !p) return;
+            const r = lastTapEl.getBoundingClientRect();
+            const sx = r.left + r.width / 2, sy = r.top + r.height / 2;
+            let tx = 120, ty = window.innerHeight - 80 - 26;
+            if (!wasEmpty) {
+                const b = document.getElementById('cart-count-badge').getBoundingClientRect();
+                tx = b.left + b.width / 2; ty = b.top + b.height / 2;
+            }
+            const el = document.createElement('div');
+            el.className = 'fly-item'; el.textContent = p.img;
+            el.style.left = sx + 'px'; el.style.top = sy + 'px';
+            document.body.appendChild(el);
+            const dx = tx - sx, dy = ty - sy;
+            el.animate([
+                { transform: 'translate(-50%,-50%) scale(1)', opacity: 1 },
+                { transform: `translate(calc(-50% + ${dx * 0.5}px), calc(-50% + ${dy * 0.5 - 90}px)) scale(1.3)`, opacity: 1, offset: 0.45 },
+                { transform: `translate(calc(-50% + ${dx}px), calc(-50% + ${dy}px)) scale(0.3)`, opacity: 0.2 }
+            ], { duration: 650, easing: 'cubic-bezier(.4,.1,.3,1)' }).onfinish = () => el.remove();
+        }
+
+        // Карточки плавно появляются при прокрутке
+        let cardObs;
+        function observeCards(animate) {
+            if (cardObs) cardObs.disconnect();
+            if (!animate || REDUCED || !('IntersectionObserver' in window)) return;
+            cardObs = new IntersectionObserver((entries) => {
+                entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); cardObs.unobserve(en.target); } });
+            }, { root: document.getElementById('menu-content'), threshold: 0.05 });
+            document.querySelectorAll('#menu-content .product-card').forEach((c, i) => {
+                c.classList.add('pre');
+                c.style.transitionDelay = (i % 5) * 45 + 'ms';
+                cardObs.observe(c);
+            });
+        }
+
+        function animateScreen(el) {
+            if (REDUCED) return;
+            el.classList.remove('enter'); void el.offsetWidth; el.classList.add('enter');
+        }
+
+        // Фон главной: неоновая сеть частиц, реагирует на палец и мышь
+        const bg = document.getElementById('bg-canvas'), bctx = bg.getContext('2d');
+        let bgOn = false, bgRaf = 0, bgPts = [], bgW = 0, bgH = 0, bgLast = 0;
+        const bgPtr = { x: -999, y: -999 };
+
+        function bgResize() {
+            const dpr = Math.min(window.devicePixelRatio || 1, 2);
+            bgW = window.innerWidth; bgH = window.innerHeight;
+            bg.width = bgW * dpr; bg.height = bgH * dpr;
+            bg.style.width = bgW + 'px'; bg.style.height = bgH + 'px';
+            bctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+            const n = bgW < 600 ? 45 : 80;
+            bgPts = Array.from({ length: n }, () => ({ x: Math.random() * bgW, y: Math.random() * bgH, vx: (Math.random() - .5) * .4, vy: (Math.random() - .5) * .4 }));
+        }
+
+        function bgFrame(t) {
+            if (!bgOn) return;
+            const f = Math.min((t - bgLast) / 16.667, 3); bgLast = t;
+            bctx.clearRect(0, 0, bgW, bgH);
+            for (const p of bgPts) {
+                p.x += p.vx * f; p.y += p.vy * f;
+                if (p.x < 0 || p.x > bgW) p.vx *= -1;
+                if (p.y < 0 || p.y > bgH) p.vy *= -1;
+                const dx = p.x - bgPtr.x, dy = p.y - bgPtr.y, d2 = dx * dx + dy * dy;
+                if (d2 < 14400) { const d = Math.sqrt(d2) || 1; p.x += dx / d * 1.5 * f; p.y += dy / d * 1.5 * f; }
+            }
+            bctx.fillStyle = 'rgba(0,240,255,.8)';
+            bctx.beginPath();
+            for (const p of bgPts) { bctx.moveTo(p.x + 1.6, p.y); bctx.arc(p.x, p.y, 1.6, 0, Math.PI * 2); }
+            bctx.fill();
+            bctx.strokeStyle = 'rgba(0,240,255,.18)'; bctx.lineWidth = .8;
+            bctx.beginPath();
+            for (let i = 0; i < bgPts.length; i++) for (let j = i + 1; j < bgPts.length; j++) {
+                const a = bgPts[i], b = bgPts[j], dx = a.x - b.x, dy = a.y - b.y;
+                if (dx * dx + dy * dy < 12100) { bctx.moveTo(a.x, a.y); bctx.lineTo(b.x, b.y); }
+            }
+            bctx.stroke();
+            bgRaf = requestAnimationFrame(bgFrame);
+        }
+
+        function setBg(on) {
+            if (REDUCED) on = false;
+            if (on === bgOn) return;
+            bgOn = on; bg.style.opacity = on ? 1 : 0;
+            cancelAnimationFrame(bgRaf);
+            if (on) { bgLast = performance.now(); bgRaf = requestAnimationFrame(bgFrame); }
+        }
+
+        function initEffects() {
+            bgResize();
+            let rt; window.addEventListener('resize', () => { clearTimeout(rt); rt = setTimeout(bgResize, 150); });
+            window.addEventListener('pointermove', (e) => { bgPtr.x = e.clientX; bgPtr.y = e.clientY; });
+            window.addEventListener('pointerup', () => { bgPtr.x = bgPtr.y = -999; });
+            document.addEventListener('visibilitychange', () => { if (!document.hidden && bgOn) { bgLast = performance.now(); } });
+            setBg(currentActiveTab === 'home');
+            // тап по затемнению закрывает окно опций
+            document.getElementById('product-options-modal').addEventListener('click', (e) => { if (e.target.id === 'product-options-modal') closeModal(); });
         }
     </script>
 </body>
